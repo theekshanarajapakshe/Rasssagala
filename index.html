@@ -120,7 +120,6 @@
   .hero-bg{
     position:absolute; inset:0; z-index:0; pointer-events:none;
   }
-  /* layered mountain silhouettes via SVG */
   .mtn{position:absolute; bottom:0; left:0; width:100%; height:auto; display:block}
   .mtn.m1{opacity:.55}
   .mtn.m2{opacity:.80}
@@ -309,7 +308,13 @@
   }
   .folk p em{color:var(--ember); font-style:normal; font-weight:600}
 
-  /* ===== Brothers ===== */
+  /* ===== Brothers & Interactive Personal Loadout ===== */
+  .bro-hint{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:11px; color:var(--ember);
+    background:rgba(255,107,26,.08); border:1px solid rgba(255,107,26,.25);
+    padding:8px 14px; border-radius:8px; margin-bottom:20px;
+  }
   .bros-grid{
     display:grid;
     grid-template-columns:repeat(auto-fill, minmax(220px,1fr));
@@ -321,6 +326,8 @@
     border-radius:12px; padding:18px;
     position:relative; overflow:hidden;
     transition:.22s;
+    cursor:pointer;
+    user-select:none;
   }
   .bro::before{
     content:''; position:absolute; top:0; left:0; right:0; height:2px;
@@ -328,13 +335,17 @@
     opacity:.5;
   }
   .bro:hover{
-    border-color:var(--border-hi);
+    border-color:var(--ember);
     background:var(--bg-card-2);
     transform:translateY(-2px);
+    box-shadow:0 8px 24px rgba(0,0,0,.4);
   }
   .bro .n{
     font-family:var(--mono); font-size:11px; color:var(--text-dim);
-    letter-spacing:.18em;
+    letter-spacing:.18em; display:flex; justify-content:space-between; align-items:center;
+  }
+  .bro .n .tap{
+    font-size:9px; color:var(--ember); opacity:.8; letter-spacing:.12em;
   }
   .bro .name{
     font-family:var(--display); font-size:30px; letter-spacing:.04em;
@@ -362,6 +373,62 @@
   .bro .tag.ember{
     background:rgba(255,107,26,.08); color:var(--ember);
     border-color:rgba(255,107,26,.2);
+  }
+
+  /* ===== Modal for Member Loadout ===== */
+  .modal-backdrop{
+    position:fixed; inset:0; z-index:999;
+    background:rgba(5,8,6,.85);
+    backdrop-filter:blur(10px);
+    display:none; align-items:center; justify-content:center;
+    padding:20px;
+    opacity:0; transition:opacity .22s ease;
+  }
+  .modal-backdrop.open{display:flex; opacity:1}
+  .modal-box{
+    background:var(--bg-card);
+    border:1px solid var(--border-hi);
+    border-top:3px solid var(--ember);
+    border-radius:16px;
+    width:100%; max-width:640px; max-height:90vh;
+    overflow-y:auto;
+    padding:28px;
+    box-shadow:0 24px 60px rgba(0,0,0,.75);
+    position:relative;
+  }
+  .modal-close{
+    position:absolute; top:20px; right:20px;
+    background:rgba(255,255,255,.05); border:1px solid var(--border);
+    color:var(--text-mute); font-family:var(--mono); font-size:12px;
+    padding:6px 12px; border-radius:6px; cursor:pointer; transition:.15s;
+  }
+  .modal-close:hover{color:var(--text); border-color:var(--ember); background:rgba(255,107,26,.12)}
+  .modal-num{font-family:var(--mono); font-size:11px; color:var(--ember); letter-spacing:.25em}
+  .modal-name{font-family:var(--display); font-size:48px; line-height:1; color:var(--text); margin:4px 0}
+  .modal-role{font-size:13px; color:var(--moss); font-family:var(--mono); letter-spacing:.06em; margin-bottom:20px}
+  .modal-sec{margin-top:20px; padding-top:16px; border-top:1px solid var(--border)}
+  .modal-sec h4{
+    font-family:var(--mono); font-size:11px; letter-spacing:.2em;
+    color:var(--ember); text-transform:uppercase; margin-bottom:10px;
+  }
+  .modal-list{list-style:none; display:flex; flex-direction:column; gap:8px}
+  .modal-list li{
+    display:flex; align-items:flex-start; gap:10px;
+    font-size:13px; color:var(--text); line-height:1.45;
+    background:rgba(10,14,12,.5); padding:9px 12px; border-radius:8px;
+    border:1px solid rgba(36,48,41,.6);
+  }
+  .modal-list li input[type="checkbox"]{
+    margin-top:3px; accent-color:var(--ember); width:15px; height:15px; cursor:pointer; flex-shrink:0;
+  }
+  .modal-list li.checked span{text-decoration:line-through; color:var(--text-dim)}
+  .modal-personal{
+    display:flex; flex-wrap:wrap; gap:6px;
+  }
+  .modal-personal span{
+    font-family:var(--mono); font-size:10px; padding:4px 8px; border-radius:4px;
+    background:rgba(107,143,113,.08); color:var(--text-mute);
+    border:1px solid rgba(107,143,113,.18);
   }
 
   /* ===== Timeline ===== */
@@ -704,7 +771,7 @@
   <div class="nav-in">
     <div class="brand">
       <span class="dot"></span>
-      RASSAGALA <small>· DSCOLOS·1438M</small>
+      RASSAGALA <small>· DOLOSBAGE·1438M</small>
     </div>
     <div class="nav-links">
       <a href="#mountain">Mountain</a>
@@ -736,7 +803,7 @@
   <div class="hero-inner">
     <div class="eyebrow reveal">
       <span class="pip"></span>
-      DOLOSUAGE RANGE · SRI LANKA · CAMP II
+      DOLOSBAGE RANGE · SRI LANKA · CAMP II
     </div>
 
     <h1 class="title reveal">RASSA<span class="accent">GALA</span></h1>
@@ -851,113 +918,117 @@
     </div>
     <p class="desc">
       Roles and carries assigned. Heavy shared items spread so nobody hauls more than ~1 big item.
-      <em>Reassign freely.</em>
+      <em>Tap any brother's card</em> to open their personal loadout &amp; responsibilities checklist.
     </p>
+  </div>
+
+  <div class="bro-hint reveal">
+    <span>👆 TAP ANY NAME TO VIEW WHAT TO BRING &amp; RESPONSIBILITIES</span>
   </div>
 
   <div class="bros-grid">
 
-    <div class="bro reveal">
-      <div class="n">01</div>
+    <div class="bro reveal" onclick="openMember('theekshana')">
+      <div class="n"><span>01</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">THEEKSHANA</div>
-      <div class="role">Admin · Food float · BOSS</div>
-      <div class="carry">Carries the <b>THE CHAIRMAN OF THE MOUNTAIN</b> holds <b>food cash float</b>; Decides when to use Duma. Confirms tent rental.</div>
-      <div class="tags"><span class="tag ember">SWEEP</span><span class="tag">NAV</span><span class="tag">FOOD FLOAT</span></div>
+      <div class="role">Chairman · Food Float · Executive Calls</div>
+      <div class="carry"><b>Chairman of the Mountain.</b> Holds the <b>food cash float</b>, makes executive calls, decides when to use Duma, and confirms tent rental.</div>
+      <div class="tags"><span class="tag ember">CHAIRMAN</span><span class="tag">EXEC CALLS</span><span class="tag">FOOD FLOAT</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">02</div>
+    <div class="bro reveal" onclick="openMember('mevindu')">
+      <div class="n"><span>02</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">MEVIDU</div>
-      <div class="role">Front lead · Transport money · Wake-up</div>
-      <div class="carry">Buys all <b>4 bus tickets</b> for the group (transport cash); leads at the front; owns the wake-up call and camp timeline. Carries water.</div>
-      <div class="tags"><span class="tag ember">LEAD</span><span class="tag">TRANSPORT</span><span class="tag">TIMELINE</span></div>
+      <div class="role">Mountain Boy · Front Lead · Transport Cash</div>
+      <div class="carry"><b>Trail &amp; Route Lead.</b> Carries <b>printed/offline maps</b>, leads at the front, buys all <b>4 bus tickets</b> (transport cash), owns wake-up call &amp; water carry.</div>
+      <div class="tags"><span class="tag ember">MOUNTAIN BOY</span><span class="tag">NAV / MAPS</span><span class="tag">TRANSPORT</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">03</div>
+    <div class="bro reveal" onclick="openMember('yapa')">
+      <div class="n"><span>03</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">YAPA</div>
-      <div class="role">Arpico run · KottuMee · Sausages</div>
-      <div class="carry">Buys <b>25 Prima KottuMee Hot &amp; Spicy</b> + <b>1 bulk sausage packet</b> at Arpico Nawinna. Carries water. Shop Team B.</div>
-      <div class="tags"><span class="tag ember">SHOP B</span><span class="tag">DINNER</span><span class="tag">WATER</span></div>
+      <div class="role">Mountain Boy · Arpico Nawinna Run (Fri)</div>
+      <div class="carry">Buys <b>25 Prima KottuMee (Nai Miris)</b>, <b>1 bulk sausage packet</b> &amp; <b>wet tissues</b> at <b>Arpico Nawinna on Friday</b>. Trail backup nav &amp; carries water.</div>
+      <div class="tags"><span class="tag ember">FRIDAY RUN</span><span class="tag">MOUNTAIN BOY</span><span class="tag">DINNER</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">04</div>
+    <div class="bro reveal" onclick="openMember('manage')">
+      <div class="n"><span>04</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">MANAGE</div>
-      <div class="role">Front lead · Tents · Tarp</div>
+      <div class="role">Front Lead · Tents · Tarp</div>
       <div class="carry">Owns the <b>2 rented 6-person tents</b> (splits poles/flysheet across 4 carriers), <b>tarp + rope</b>, peg hammer. Front of the line. Confirms tent cost.</div>
       <div class="tags"><span class="tag ember">LEAD</span><span class="tag">TENTS</span><span class="tag">TARP</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">05</div>
+    <div class="bro reveal" onclick="openMember('dilum')">
+      <div class="n"><span>05</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">DILUM</div>
-      <div class="role">Lunch packets · Day-1 breakfast</div>
+      <div class="role">Lunch Packets · Day-1 Breakfast</div>
       <div class="carry">Buys <b>13 lunch packets</b> + <b>13 Day-1 breakfast packs</b> in Nawalapitiya, ~09:30. Pre-calls a rice shop from the bus to order ahead. Shop Team A.</div>
       <div class="tags"><span class="tag ember">SHOP A</span><span class="tag">LUNCH</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">06</div>
+    <div class="bro reveal" onclick="openMember('damsath')">
+      <div class="n"><span>06</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">DAMSATH</div>
-      <div class="role">Headcount · Bus timings</div>
+      <div class="role">Headcount · Bus Timings</div>
       <div class="carry">Counts heads at <b>every stop</b>. Owns the down-bus question — confirms last Raxawa → Nawalapitiya and last Nawalapitiya → Colombo buses. Shop Team A.</div>
       <div class="tags"><span class="tag ember">HEADCOUNT</span><span class="tag">BUSTIMES</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">07</div>
+    <div class="bro reveal" onclick="openMember('nisal')">
+      <div class="n"><span>07</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">NISAL</div>
       <div class="role">Stove · Gas</div>
       <div class="carry">Brings the <b>gas stove</b> (test before Sat) + existing <b>gas tin</b>. Buys <b>1 spare gas tin</b> (Rs 1,250). Two stoves confirmed for the cook team.</div>
       <div class="tags"><span class="tag">STOVE</span><span class="tag">GAS</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">08</div>
+    <div class="bro reveal" onclick="openMember('noogi')">
+      <div class="n"><span>08</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">NOOGI</div>
-      <div class="role">Cook kit · Second stove · Pots</div>
+      <div class="role">Cook Kit · Second Stove · Pots</div>
       <div class="carry">Brings the <b>second stove</b>, <b>2 large cooking pots</b> (noodles + coffee water), ladle/spoon/tongs. Buys spare gas tin backup. The camp kitchen.</div>
       <div class="tags"><span class="tag">COOKKIT</span><span class="tag">STOVE 2</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">09</div>
+    <div class="bro reveal" onclick="openMember('thenula')">
+      <div class="n"><span>09</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">THENULA</div>
-      <div class="role">Breakfast run · Coffee · Bread</div>
+      <div class="role">Breakfast Run · Coffee · Bread</div>
       <div class="carry">Buys <b>bread (4 loaves)</b>, <b>dhal curry (13 portions)</b>, <b>butter</b>, <b>coffee sachets + sugar + milk powder</b>. Day-2 breakfast + hot coffee at the top. Shop Team C.</div>
       <div class="tags"><span class="tag ember">SHOP C</span><span class="tag">BREAKFAST</span><span class="tag">COFFEE</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">10</div>
+    <div class="bro reveal" onclick="openMember('vinuda')">
+      <div class="n"><span>10</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">VINUDA</div>
-      <div class="role">Price scout · Arpico run</div>
-      <div class="carry">Verifies <b>Prima KottuMee + Arpico prices</b> at Nawalapitiya (the yellow estimate lines). Pairs with Yapa on Shop Team B for the sausage + noodle run.</div>
-      <div class="tags"><span class="tag ember">SHOP B</span><span class="tag">PRICES</span></div>
+      <div class="role">Dextrose · Arpico Nawinna Run (Fri)</div>
+      <div class="carry">Brings <b>Dextrose</b> energy packs for the climb. Pairs with Yapa on <b>Friday at Arpico Nawinna</b> for KottuMee, sausages &amp; wet tissues. Verifies local prices.</div>
+      <div class="tags"><span class="tag ember">DEXTROSE</span><span class="tag">FRIDAY RUN</span><span class="tag">PRICES</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">11</div>
+    <div class="bro reveal" onclick="openMember('sithuka')">
+      <div class="n"><span>11</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">SITHUKA</div>
-      <div class="role">First aid · Leech defence</div>
+      <div class="role">First Aid · Leech Defence</div>
       <div class="carry">Carries the <b>first-aid kit</b> — plasters, ORS, Panadol, antiseptic. Owns the <b>leech salt / tobacco water</b> for wet weather. Hill-country essential.</div>
       <div class="tags"><span class="tag ember">MEDIC</span><span class="tag">LEECH</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">12</div>
+    <div class="bro reveal" onclick="openMember('puljith')">
+      <div class="n"><span>12</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">PULJITH</div>
-      <div class="role">Light · Power bank</div>
+      <div class="role">Light · Power Bank</div>
       <div class="carry">Brings <b>3 lamps / big torches</b> (shared) plus each person's own headlamp. Carries the shared <b>power bank</b>. The summit stays lit.</div>
       <div class="tags"><span class="tag">LIGHT</span><span class="tag">POWER</span></div>
     </div>
 
-    <div class="bro reveal">
-      <div class="n">13</div>
+    <div class="bro reveal" onclick="openMember('nethan')">
+      <div class="n"><span>13</span><span class="tap">TAP LOADOUT →</span></div>
       <div class="name">NETHAN</div>
-      <div class="role">Consumables · Leave-no-trace</div>
-      <div class="carry">Buys the <b>misc consumables</b> bag — <b>3 lighters</b> (spread across 3 bags), <b>5 garbage bags</b>, <b>wet wipes / tissue</b>, salt, etc. Carries all rubbish out.</div>
+      <div class="role">Consumables · Leave-No-Trace</div>
+      <div class="carry">Buys the <b>misc consumables</b> bag — <b>3 lighters</b> (spread across 3 bags), <b>5 garbage bags</b>, extra tissues, salt, etc. Carries all rubbish out.</div>
       <div class="tags"><span class="tag ember">CONSUMABLES</span><span class="tag">LNT</span></div>
     </div>
 
@@ -978,6 +1049,23 @@
   </div>
 
   <div class="tl-days">
+
+    <div class="day-block reveal">
+      <div class="day-label">
+        <div class="d">FRI</div>
+        <div class="m">27 NOV</div>
+        <div class="y">PRE-TRIP</div>
+      </div>
+      <div class="tl-list">
+        <div class="tl-row fixed">
+          <div class="tl-time">FRIDAY</div>
+          <div>
+            <div class="tl-what">Arpico Nawinna Supply Run <span style="font-size:11px;color:var(--ok);font-family:var(--mono)">· YAPA + VINUDA</span></div>
+            <div class="tl-note">Pick up 25 Prima KottuMee (Nai Miris), 1 bulk sausage packet, and wet tissues from Arpico Nawinna so Saturday's 30-min Nawalapitiya sprint stays stress-free.</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="day-block reveal">
       <div class="day-label">
@@ -1006,8 +1094,8 @@
         <div class="tl-row">
           <div class="tl-time">09:30 – 10:00</div>
           <div>
-            <div class="tl-what">Shopping sprint — 3 teams</div>
-            <div class="tl-note">Tightest part of the trip. The moment you step off the bus, split. Next bus after 10:00 = ?</div>
+            <div class="tl-what">Shopping sprint — Nawalapitiya teams</div>
+            <div class="tl-note">Dinner &amp; wet tissues are already sorted from Friday's Arpico Nawinna run. Teams A &amp; C grab fresh rice packets, bakery items, dhal, and 5L water bottles.</div>
           </div>
         </div>
 
@@ -1023,7 +1111,7 @@
           <div class="tl-time">~11:15</div>
           <div>
             <div class="tl-what">Start trail near Raxagala tea factory</div>
-            <div class="tl-note">Sources: ~2–3 km one way, 1.5–2 hr for light day hikers; allow 2.5–3 hr with 13 + camping gear.</div>
+            <div class="tl-note">Mevidu &amp; Yapa lead the trail. ~2–3 km one way, allow 2.5–3 hr with 13 + camping gear. Vinuda distributes Dextrose on the climb.</div>
           </div>
         </div>
 
@@ -1156,8 +1244,8 @@
           <tr><td>Lunch packets (Day 1)</td><td class="num">13</td><td class="num">450</td><td class="num">5,850</td><td><span class="who">Dilum</span></td><td class="mute">Sat ~09:30, Nawalapitiya <span class="status-pill conf">CONFIRMED</span></td></tr>
           <tr><td>Breakfast (Day 1)</td><td class="num">13</td><td class="num">200</td><td class="num">2,600</td><td><span class="who">Dilum</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill conf">CONFIRMED</span></td></tr>
           <tr><td>Hot coffee at the top</td><td class="num">13</td><td class="num">50</td><td class="num">650</td><td><span class="who">Thenula</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill est">ESTIMATE</span></td></tr>
-          <tr><td>Prima KottuMee Hot &amp; Spicy (dinner)</td><td class="num">25</td><td class="num">140</td><td class="num">3,500</td><td><span class="who">Yapa</span></td><td class="mute">Sat, Arpico Nawalapitiya <span class="status-pill est">ESTIMATE</span></td></tr>
-          <tr><td>Sausages, bulk packet (dinner)</td><td class="num">1</td><td class="num">1,000</td><td class="num">1,000</td><td><span class="who">Yapa</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill est">ESTIMATE</span></td></tr>
+          <tr><td>Prima KottuMee Hot &amp; Spicy (dinner)</td><td class="num">25</td><td class="num">140</td><td class="num">3,500</td><td><span class="who">Yapa + Vinuda</span></td><td class="mute">Fri, Arpico Nawinna <span class="status-pill conf">ARPICO RATE</span></td></tr>
+          <tr><td>Sausages, bulk packet (dinner)</td><td class="num">1</td><td class="num">1,000</td><td class="num">1,000</td><td><span class="who">Yapa + Vinuda</span></td><td class="mute">Fri, Arpico Nawinna <span class="status-pill est">ESTIMATE</span></td></tr>
           <tr><td>Bread loaves (Day-2 breakfast)</td><td class="num">4</td><td class="num">160</td><td class="num">640</td><td><span class="who">Thenula</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill est">ESTIMATE</span></td></tr>
           <tr><td>Dhal curry (Day-2 breakfast)</td><td class="num">13</td><td class="num">60</td><td class="num">780</td><td><span class="who">Thenula</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill est">ESTIMATE</span></td></tr>
           <tr><td>Butter</td><td class="num">1</td><td class="num">950</td><td class="num">950</td><td><span class="who">Thenula</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill online">ONLINE</span></td></tr>
@@ -1165,7 +1253,7 @@
           <tr class="cat-row"><td colspan="6">SUPPLIES · Fuel, water, consumables</td></tr>
           <tr><td>Water 5L bottles</td><td class="num">8</td><td class="num">400</td><td class="num">3,200</td><td><span class="who">Manage</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill online">MAX RETAIL</span></td></tr>
           <tr><td>Spare gas tin</td><td class="num">1</td><td class="num">1,250</td><td class="num">1,250</td><td><span class="who">Nisal</span></td><td class="mute">Before Sat <span class="status-pill online">ONLINE</span></td></tr>
-          <tr><td>Misc consumables (lighters, bags, wipes, salt, tissue)</td><td class="num">1</td><td class="num">800</td><td class="num">800</td><td><span class="who">Nethan</span></td><td class="mute">Before Sat <span class="status-pill est">ESTIMATE</span></td></tr>
+          <tr><td>Misc consumables (lighters, bags, wet tissues, salt)</td><td class="num">1</td><td class="num">800</td><td class="num">800</td><td><span class="who">Yapa / Nethan</span></td><td class="mute">Wet tissues Fri Arpico; rest Nethan <span class="status-pill est">ESTIMATE</span></td></tr>
 
           <tr class="cat-row"><td colspan="6">GEAR · Rented</td></tr>
           <tr><td>Tent rental (6-person, rented)</td><td class="num">2</td><td class="num">1,500</td><td class="num">3,000</td><td><span class="who">Theekshana</span></td><td class="mute">Before Sat — confirm Rs 3,000 total vs each <span class="status-pill est">YOUR FIGURE</span></td></tr>
@@ -1216,11 +1304,11 @@
   <div class="sec-head reveal">
     <div>
       <div class="num">05 / THE SPRINT</div>
-      <h2>30 minutes in Nawalapitiya</h2>
+      <h2>Friday Prep &amp; Nawalapitiya Sprint</h2>
     </div>
     <p class="desc">
-      If the Fort bus lands ~09:30 you have ~30 minutes. Split into <em>3 teams the moment you step off</em> —
-      nobody misses the 10:00 Dolosbage bus.
+      Team B handles the non-perishables at <em>Arpico Nawinna on Friday</em>. On Saturday ~09:30 in Nawalapitiya,
+      Teams A &amp; C sprint for fresh meals &amp; water before the 10:00 Dolosbage bus.
     </p>
   </div>
 
@@ -1228,7 +1316,7 @@
 
     <div class="shop-team reveal">
       <div class="team-id">A</div>
-      <div class="team-who">DILUM + DAMSATH</div>
+      <div class="team-who">DILUM + DAMSATH · SAT 09:30 NAWALAPITIYA</div>
       <ul>
         <li><span class="item">Lunch packets</span><span class="qty">× 13</span></li>
         <li><span class="item">Day-1 breakfast packs</span><span class="qty">× 13</span></li>
@@ -1240,25 +1328,26 @@
 
     <div class="shop-team reveal">
       <div class="team-id">B</div>
-      <div class="team-who">YAPA + VINUDA</div>
+      <div class="team-who">YAPA + VINUDA · FRIDAY ARPICO NAWINNA</div>
       <ul>
         <li><span class="item">Prima KottuMee Hot &amp; Spicy</span><span class="qty">× 25</span></li>
-        <li><span class="item">Sausages (1 bulk packet)</span><span class="qty">× 1</span></li>
+        <li><span class="item">Sausages (bulk packet)</span><span class="qty">× 1</span></li>
+        <li><span class="item">Wet tissues</span><span class="qty">× 3</span></li>
       </ul>
       <div class="team-note">
-        Arpico NAWINNA. Get from the Arpico Nawinna, NAI MIRIS EKA THAMA ONA.
+        <b>BUY ON FRIDAY</b> at Arpico Nawinna. NAI MIRIS EKA THAMA ONA. Freeze sausages overnight and wrap in newspaper/insulated bag for the morning bus.
       </div>
     </div>
 
     <div class="shop-team reveal">
       <div class="team-id">C</div>
-      <div class="team-who">THENULA + YAPA / MANAGE</div>
+      <div class="team-who">THENULA + MANAGE · SAT 09:30 NAWALAPITIYA</div>
       <ul>
         <li><span class="item">Bread loaves</span><span class="qty">× 4</span></li>
         <li><span class="item">Dhal curry</span><span class="qty">× 13</span></li>
         <li><span class="item">Butter</span><span class="qty">× 1</span></li>
         <li><span class="item">Coffee sachets + sugar + milk powder</span><span class="qty">× 13 mugs</span></li>
-        <li><span class="item">Water 5L bottles <em style="color:var(--text-dim);font-size:10px">(Thenula + Manage)</em></span><span class="qty">× 8</span></li>
+        <li><span class="item">Water 5L bottles <em style="color:var(--text-dim);font-size:10px">(Manage + carriers)</em></span><span class="qty">× 8</span></li>
       </ul>
       <div class="team-note">
         Ask for sealed / tight container for dhal — it must survive overnight. Fill personal bottles too.
@@ -1290,7 +1379,7 @@
 
     <div class="gear-item reveal"><div class="gear-icon">🔥</div><div class="gear-body"><div class="gear-name">Gas tin (existing)</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Nisal</span><span class="stat have">HAVE</span></div></div></div>
 
-    <div class="gear-item reveal"><div class="gear-icon">🔥</div><div class="gear-body"><div class="gear-name">Spare gas tin</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Noogi</span><span class="stat buy">BUY</span></div><div class="gear-note">Two stoves help; still carry 1 spare tin.</div></div></div>
+    <div class="gear-item reveal"><div class="gear-icon">🔥</div><div class="gear-body"><div class="gear-name">Spare gas tin</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Nisal / Noogi</span><span class="stat buy">BUY</span></div><div class="gear-note">Two stoves help; still carry 1 spare tin.</div></div></div>
 
     <div class="gear-item reveal"><div class="gear-icon">🔥</div><div class="gear-body"><div class="gear-name">Second stove</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Noogi</span><span class="stat have">HAVE</span></div><div class="gear-note">Two stoves confirmed.</div></div></div>
 
@@ -1300,7 +1389,11 @@
 
     <div class="gear-item reveal"><div class="gear-icon">☕</div><div class="gear-body"><div class="gear-name">Mugs or bowls</div><div class="gear-meta"><span class="qty">×13</span><span class="who">Each person</span><span class="stat bring">BRING</span></div><div class="gear-note">Personal mug doubles for coffee + noodles.</div></div></div>
 
-    <div class="gear-item reveal"><div class="gear-icon">🔥</div><div class="gear-body"><div class="gear-name">Lighters</div><div class="gear-meta"><span class="qty">×3</span><span class="who">Nethan</span><span class="stat buy">BUY</span></div><div class="gear-note">Spread across 3 bags.</div></div></div>
+    <div class="gear-item reveal"><div class="gear-icon">🔥</div><div class="gear-body"><div class="gear-name">Lighters &amp; garbage bags</div><div class="gear-meta"><span class="qty">×3 / ×5</span><span class="who">Nethan</span><span class="stat buy">BUY</span></div><div class="gear-note">Spread lighters across 3 bags. Carry all rubbish out.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🧻</div><div class="gear-body"><div class="gear-name">Wet tissues</div><div class="gear-meta"><span class="qty">×3</span><span class="who">Yapa + Vinuda</span><span class="stat buy">FRI ARPICO</span></div><div class="gear-note">Picked up Friday at Arpico Nawinna.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">⚡</div><div class="gear-body"><div class="gear-name">Dextrose energy packs</div><div class="gear-meta"><span class="qty">Group</span><span class="who">Vinuda</span><span class="stat bring">BRING</span></div><div class="gear-note">Quick energy boost for the final steep climb.</div></div></div>
 
     <div class="gear-item reveal"><div class="gear-icon">⛺</div><div class="gear-body"><div class="gear-name">Tents (6-person, rented)</div><div class="gear-meta"><span class="qty">×2</span><span class="who">Manage + 3 others</span><span class="stat rent">RENT</span></div><div class="gear-note">Split poles/flysheet/bag across 4 carriers. 13 boys in 12 spaces: one extra bag/tarp shelter or squeeze.</div></div></div>
 
@@ -1308,31 +1401,25 @@
 
     <div class="gear-item reveal"><div class="gear-icon">🔨</div><div class="gear-body"><div class="gear-name">Peg hammer / extra pegs</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Manage</span><span class="stat need">NEED</span></div></div></div>
 
-    <div class="gear-item reveal"><div class="gear-icon">💧</div><div class="gear-body"><div class="gear-name">Water 5L bottles</div><div class="gear-meta"><span class="qty">×8</span><span class="who">Yapa + Mevidu + 4 others</span><span class="stat buy">BUY</span></div><div class="gear-note">Buy at Nawalapitiya. Heavy: ~2 bottles per carrier max.</div></div></div>
+    <div class="gear-item reveal"><div class="gear-icon">💧</div><div class="gear-body"><div class="gear-name">Water 5L bottles</div><div class="gear-meta"><span class="qty">×8</span><span class="who">Mevidu + Yapa + 4 others</span><span class="stat buy">BUY</span></div><div class="gear-note">Buy at Nawalapitiya. Heavy: ~2 bottles per carrier max.</div></div></div>
 
-    <div class="gear-item reveal"><div class="gear-icon">✚</div><div class="gear-body"><div class="gear-name">First-aid kit</div><div class="gear-meta"><span class="qty">×1</span><span class="who">SITHUKA</span><span class="stat need">NEED</span></div><div class="gear-note">Plasters, ORS, Panadol, antiseptic, leech salt.</div></div></div>
+    <div class="gear-item reveal"><div class="gear-icon">✚</div><div class="gear-body"><div class="gear-name">First-aid kit</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Sithuka</span><span class="stat need">NEED</span></div><div class="gear-note">Plasters, ORS, Panadol, antiseptic, leech salt.</div></div></div>
 
-    <div class="gear-item reveal"><div class="gear-icon">🗑</div><div class="gear-body"><div class="gear-name">Garbage bags</div><div class="gear-meta"><span class="qty">×5</span><span class="who">Nethan</span><span class="stat buy">BUY</span></div><div class="gear-note">Carry all rubbish out. Leave no trace.</div></div></div>
-
-    <div class="gear-item reveal"><div class="gear-icon">🧻</div><div class="gear-body"><div class="gear-name">Wet wipes / tissue</div><div class="gear-meta"><span class="qty">×3</span><span class="who">Nethan</span><span class="stat buy">BUY</span></div></div></div>
-
-    <div class="gear-item reveal"><div class="gear-icon">🧂</div><div class="gear-body"><div class="gear-name">Salt / tobacco water · leech repellent</div><div class="gear-meta"><span class="qty">×1</span><span class="who">SITHUKA</span><span class="stat need">NEED</span></div><div class="gear-note">Leeches likely in wet weather.</div></div></div>
+    <div class="gear-item reveal"><div class="gear-icon">🧂</div><div class="gear-body"><div class="gear-name">Salt / tobacco water · leech repellent</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Sithuka</span><span class="stat need">NEED</span></div><div class="gear-note">Leeches likely in wet weather.</div></div></div>
 
     <div class="gear-item reveal"><div class="gear-icon">🔦</div><div class="gear-body"><div class="gear-name">Lamps / big torch (shared)</div><div class="gear-meta"><span class="qty">×3</span><span class="who">Puljith</span><span class="stat need">NEED</span></div><div class="gear-note">Plus each person's own headlamp.</div></div></div>
 
     <div class="gear-item reveal"><div class="gear-icon">🔋</div><div class="gear-body"><div class="gear-name">Power bank (shared)</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Puljith</span><span class="stat need">NEED</span></div></div></div>
 
-    <div class="gear-item reveal"><div class="gear-icon">🗺</div><div class="gear-body"><div class="gear-name">Printed / offline map + route screenshot</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Theekshana</span><span class="stat need">NEED</span></div><div class="gear-note">Signal may drop.</div></div></div>
+    <div class="gear-item reveal"><div class="gear-icon">🗺</div><div class="gear-body"><div class="gear-name">Printed / offline map + route screenshot</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Mevidu / Yapa</span><span class="stat need">NEED</span></div><div class="gear-note">Mountain boys handle trail navigation where signal drops.</div></div></div>
 
-    <div class="gear-item reveal"><div class="gear-icon">💵</div><div class="gear-body"><div class="gear-name">Cash for transport + float</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Mevidu / Theekshana</span><span class="stat need">NEED</span></div><div class="gear-note">Small notes for buses. Transport + food floats.</div></div></div>
+    <div class="gear-item reveal"><div class="gear-icon">💵</div><div class="gear-body"><div class="gear-name">Cash for transport + float</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Mevidu / Theekshana</span><span class="stat need">NEED</span></div><div class="gear-note">Mevidu holds transport cash; Theekshana holds food float.</div></div></div>
 
-    <div class="gear-item reveal"><div class="gear-icon">①</div><div class="gear-body"><div class="gear-name">Group head-count owner</div><div class="gear-meta"><span class="who">Damsath</span><span class="stat role">ROLE</span></div><div class="gear-note">Count at every stop.</div></div></div>
+    <div class="gear-item reveal"><div class="gear-icon">👑</div><div class="gear-body"><div class="gear-name">Chairman · Executive Calls &amp; Duma Call</div><div class="gear-meta"><span class="who">Theekshana</span><span class="stat role">CHAIRMAN</span></div><div class="gear-note">Makes all executive calls, controls food float, decides when to use Duma.</div></div></div>
 
-    <div class="gear-item reveal"><div class="gear-icon">⏱</div><div class="gear-body"><div class="gear-name">Bus timings (down-bus times!)</div><div class="gear-meta"><span class="who">Damsath</span><span class="stat role">ROLE</span></div><div class="gear-note">Confirm last Raxawa → Nawalapitiya bus.</div></div></div>
+    <div class="gear-item reveal"><div class="gear-icon">①</div><div class="gear-body"><div class="gear-name">Group head-count &amp; bus timings</div><div class="gear-meta"><span class="who">Damsath</span><span class="stat role">ROLE</span></div><div class="gear-note">Count at every stop. Confirm last Raxawa → Nawalapitiya bus.</div></div></div>
 
-    <div class="gear-item reveal"><div class="gear-icon">⏰</div><div class="gear-body"><div class="gear-name">Wake-up call / camp timeline</div><div class="gear-meta"><span class="who">Mevidu</span><span class="stat role">ROLE</span></div></div></div>
-
-    <div class="gear-item reveal"><div class="gear-icon">→</div><div class="gear-body"><div class="gear-name">Lead at front / sweep at back</div><div class="gear-meta"><span class="who">Manage (front) / Theekshana (sweep)</span><span class="stat role">ROLE</span></div><div class="gear-note">Nobody gets left behind.</div></div></div>
+    <div class="gear-item reveal"><div class="gear-icon">→</div><div class="gear-body"><div class="gear-name">Trail Lead (Front &amp; Mountain Navigation)</div><div class="gear-meta"><span class="who">Mevidu / Yapa / Manage</span><span class="stat role">ROLE</span></div><div class="gear-note">Mountain boys pace the climb and keep the line together.</div></div></div>
 
   </div>
 
@@ -1403,7 +1490,7 @@
         <div class="q-text">Local contact at Raxawa for water source, camping permission and trail info.</div>
         <div class="q-why"><em>Unverified online.</em> Verified water source on the trail is the biggest gap in the plan.</div>
       </div>
-      <div class="q-owner"><div class="k">OWNER</div><div class="v">THEEKSHANA</div></div>
+      <div class="q-owner"><div class="k">OWNER</div><div class="v">MEVIDU / YAPA</div></div>
     </div>
 
     <div class="q-card reveal">
@@ -1412,16 +1499,16 @@
         <div class="q-text">Rain plan: tarp + ponchos + dry bags.</div>
         <div class="q-why">Late Nov, no sleeping bags, <em>~1,400 m</em>. Leeches and mist are realistic, not worst-case.</div>
       </div>
-      <div class="q-owner"><div class="k">OWNER</div><div class="v">THEEKSHANA</div></div>
+      <div class="q-owner"><div class="k">OWNER</div><div class="v">MEVIDU / MANAGE</div></div>
     </div>
 
     <div class="q-card reveal">
       <div class="q-num">6</div>
       <div class="q-body">
-        <div class="q-text">Prima KottuMee and other prices at Nawalapitiya.</div>
-        <div class="q-why">Budget lines marked <em>yellow are estimates</em>. Arpico Nawalapitiya is the source.</div>
+        <div class="q-text">Friday Arpico Nawinna prices (KottuMee, bulk sausages, wet tissues) &amp; Nawalapitiya bakery/dhal rates.</div>
+        <div class="q-why">Lock exact sausage &amp; wet tissue receipts on Friday so Theekshana can balance the float.</div>
       </div>
-      <div class="q-owner"><div class="k">OWNER</div><div class="v">VINUDA</div></div>
+      <div class="q-owner"><div class="k">OWNER</div><div class="v">VINUDA / YAPA</div></div>
     </div>
 
   </div>
@@ -1445,7 +1532,282 @@
   </div>
 </footer>
 
+<!-- ===== MEMBER LOADOUT MODAL ===== -->
+<div class="modal-backdrop" id="memberModal" onclick="if(event.target===this) closeMember()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeMember()">ESC / CLOSE ✕</button>
+    <div class="modal-num" id="mNum">01 / BROTHER</div>
+    <div class="modal-name" id="mName">NAME</div>
+    <div class="modal-role" id="mRole">ROLE</div>
+
+    <div class="modal-sec">
+      <h4>📦 What You Must Bring / Buy</h4>
+      <ul class="modal-list" id="mBring"></ul>
+    </div>
+
+    <div class="modal-sec">
+      <h4>🎯 Your Responsibilities</h4>
+      <ul class="modal-list" id="mResp"></ul>
+    </div>
+
+    <div class="modal-sec">
+      <h4>🎒 Standard Personal Kit (Everyone Brings)</h4>
+      <div class="modal-personal">
+        <span>2L water bottle</span>
+        <span>Personal mug/bowl</span>
+        <span>Rain jacket / poncho</span>
+        <span>Warm layer</span>
+        <span>Sleeping bag + mat</span>
+        <span>Headlamp</span>
+        <span>Grip shoes</span>
+        <span>Spare socks</span>
+        <span>Long pants</span>
+        <span>Power bank</span>
+        <span>Own meds &amp; NIC</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+  // Member Data
+  const MEMBERS = {
+    theekshana: {
+      num: "01 / CHAIRMAN",
+      name: "THEEKSHANA",
+      role: "Chairman · Food Cash Float · Executive Decisions",
+      bring: [
+        "Food cash float (collected Rs 3,900/head pool split with Mevidu)",
+        "Personal kit + personal mug/bowl"
+      ],
+      resp: [
+        "Chairman of the Mountain — make all executive calls for the group",
+        "Hold and manage the food & supplies cash float",
+        "Make the executive call on when to use Duma",
+        "Confirm tent rental details (Rs 3,000 total vs per tent) with Manage before Saturday"
+      ]
+    },
+    mevindu: {
+      num: "02 / MOUNTAIN BOY",
+      name: "MEVIDU",
+      role: "Mountain Boy · Trail Navigation · Front Lead · Transport Cash",
+      bring: [
+        "Printed / offline map + route screenshots (signal will drop)",
+        "Transport cash float (Rs 23,400 total for all 4 bus legs in small notes)",
+        "1–2 × 5L water bottles (carried from Nawalapitiya)",
+        "Personal kit + personal mug/bowl"
+      ],
+      resp: [
+        "Mountain Boy — own offline navigation, trail route finding & pacing at the front",
+        "Buy all 4 bus tickets for the 13 brothers (Fort→Nawalapitiya, Nawalapitiya→Raxawa & return)",
+        "Verify local Raxawa water source, trail conditions & rain backup plan with Manage",
+        "Own the Sunday morning wake-up call & keep camp on schedule"
+      ]
+    },
+    yapa: {
+      num: "03 / MOUNTAIN BOY",
+      name: "YAPA",
+      role: "Mountain Boy · Friday Arpico Nawinna Run · Trail Backup",
+      bring: [
+        "[FRIDAY — Arpico Nawinna] 25 × Prima KottuMee Hot & Spicy (Nai Miris)",
+        "[FRIDAY — Arpico Nawinna] 1 × Bulk sausage packet (keep frozen overnight)",
+        "[FRIDAY — Arpico Nawinna] 3 × Wet tissue packs",
+        "Offline route backup on phone + 1–2 × 5L water bottles from Nawalapitiya"
+      ],
+      resp: [
+        "Complete the Friday supply run at Arpico Nawinna with Vinuda",
+        "Mountain Boy — assist Mevidu with trail navigation, route checks & water source verification",
+        "Help carry shared 5L water bottles up the trail"
+      ]
+    },
+    manage: {
+      num: "04 / CAMP & LEAD",
+      name: "MANAGE",
+      role: "Front Lead · Tents · Tarp & Shelter",
+      bring: [
+        "2 × Rented 6-person tents (split poles/flysheets across 4 carriers)",
+        "1 × Tarp + rope (essential rain/cooking shelter)",
+        "1 × Peg hammer + extra tent pegs",
+        "1–2 × 5L water bottles from Nawalapitiya"
+      ],
+      resp: [
+        "Lead the hiking line at the front alongside Mevidu",
+        "Confirm tent rental pricing and capacity (13 boys in 2 tents) before Saturday",
+        "Coordinate tent pitching and rain tarp setup before dark (~14:00–15:00)"
+      ]
+    },
+    dilum: {
+      num: "05 / SHOP TEAM A",
+      name: "DILUM",
+      role: "Shop Team A · Day-1 Meals",
+      bring: [
+        "[SAT 09:30 Nawalapitiya] 13 × Lunch packets",
+        "[SAT 09:30 Nawalapitiya] 13 × Day-1 breakfast packs",
+        "Personal kit + personal mug/bowl"
+      ],
+      resp: [
+        "Pre-call a Nawalapitiya rice shop from the morning bus to order 26 packets ahead",
+        "Execute the 30-minute Nawalapitiya sprint with Damsath so nobody misses the 10:00 bus"
+      ]
+    },
+    damsath: {
+      num: "06 / LOGISTICS",
+      name: "DAMSATH",
+      role: "Headcount Owner · Bus Timings · Shop Team A",
+      bring: [
+        "Assist Dilum carrying the 13 lunch + 13 breakfast packs in Nawalapitiya",
+        "Personal kit + personal mug/bowl"
+      ],
+      resp: [
+        "Count all 13 heads at EVERY single bus stop, junction, and trail checkpoint",
+        "Confirm the exact LAST Raxawa → Nawalapitiya and Nawalapitiya → Colombo (13:15 vs 12:00) bus times"
+      ]
+    },
+    nisal: {
+      num: "07 / FIRE & FUEL",
+      name: "NISAL",
+      role: "Primary Stove · Gas Fuel",
+      bring: [
+        "1 × Gas stove (tested before Saturday)",
+        "1 × Existing gas tin",
+        "1 × Spare gas tin (Rs 1,250, bought before Saturday)"
+      ],
+      resp: [
+        "Test stove ignition and gas connections before Saturday morning",
+        "Run batch dinner cooking (KottuMee + sausages) alongside Noogi"
+      ]
+    },
+    noogi: {
+      num: "08 / CAMP KITCHEN",
+      name: "NOOGI",
+      role: "Camp Kitchen · Second Stove · Cookware",
+      bring: [
+        "1 × Second gas stove",
+        "2 × Large cooking pots (one for noodles, one for coffee water)",
+        "1 × Ladle / big cooking spoon / tongs"
+      ],
+      resp: [
+        "Manage the camp kitchen setup under the tarp",
+        "Boil water for 13 mugs of hot coffee (~16:00) and cook dinner in batches (~18:30)"
+      ]
+    },
+    thenula: {
+      num: "09 / SHOP TEAM C",
+      name: "THENULA",
+      role: "Shop Team C · Coffee & Day-2 Breakfast",
+      bring: [
+        "[SAT 09:30 Nawalapitiya] 4 × Bread loaves",
+        "[SAT 09:30 Nawalapitiya] 13 × Portions of dhal curry (in tight/sealed container)",
+        "[SAT 09:30 Nawalapitiya] 1 × Pack of butter",
+        "[SAT 09:30 Nawalapitiya] Coffee sachets + sugar + milk powder (for 13 mugs)"
+      ],
+      resp: [
+        "Ensure dhal curry is packed in a leak-proof container to survive the hike and overnight",
+        "Organize evening hot coffee (~16:00) and Sunday morning breakfast (~06:30)"
+      ]
+    },
+    vinuda: {
+      num: "10 / ENERGY & FRIDAY RUN",
+      name: "VINUDA",
+      role: "Dextrose · Friday Arpico Nawinna Run · Price Check",
+      bring: [
+        "Dextrose energy packs for the group",
+        "[FRIDAY — Arpico Nawinna] Pair with Yapa for 25 KottuMee, bulk sausages & wet tissues",
+        "Personal kit + personal mug/bowl"
+      ],
+      resp: [
+        "Distribute Dextrose during the steep ascent up Rassagala",
+        "Help Yapa execute the Friday Arpico Nawinna run and submit receipts to Theekshana"
+      ]
+    },
+    sithuka: {
+      num: "11 / MEDIC",
+      name: "SITHUKA",
+      role: "First Aid · Leech Defence",
+      bring: [
+        "1 × Group First-Aid Kit (plasters, ORS, Panadol, antiseptic, bandages)",
+        "Leech protection (salt / tobacco water / leech spray)"
+      ],
+      resp: [
+        "Act as group medic for cuts, dehydration, or fatigue on the climb",
+        "Keep leech salt/repellent easily accessible in an outer pocket for wet trails"
+      ]
+    },
+    puljith: {
+      num: "12 / LIGHT & POWER",
+      name: "PULJITH",
+      role: "Camp Lighting · Shared Power",
+      bring: [
+        "3 × Shared camp lamps / big torches (fully charged / fresh batteries)",
+        "1 × High-capacity shared power bank + charging cables"
+      ],
+      resp: [
+        "Light up the summit campsite and kitchen area after dusk",
+        "Manage shared phone charging so navigation & emergency phones stay alive"
+      ]
+    },
+    nethan: {
+      num: "13 / LNT & CONSUMABLES",
+      name: "NETHAN",
+      role: "Misc Consumables · Leave-No-Trace",
+      bring: [
+        "3 × Lighters (distribute across 3 separate bags)",
+        "5 × Heavy-duty garbage bags",
+        "Extra tissues, salt & misc kitchen consumables"
+      ],
+      resp: [
+        "Ensure lighters are waterproofed and split across different backpacks",
+        "Enforce Leave-No-Trace — pack out 100% of camp and lunch rubbish down the mountain"
+      ]
+    }
+  };
+
+  function openMember(id){
+    const m = MEMBERS[id];
+    if(!m) return;
+    document.getElementById('mNum').textContent = m.num;
+    document.getElementById('mName').textContent = m.name;
+    document.getElementById('mRole').textContent = m.role;
+
+    const renderList = (elId, items, prefix) => {
+      const ul = document.getElementById(elId);
+      ul.innerHTML = '';
+      items.forEach((txt, idx) => {
+        const key = 'ras_' + id + '_' + prefix + '_' + idx;
+        const isChecked = localStorage.getItem(key) === '1';
+        const li = document.createElement('li');
+        if(isChecked) li.className = 'checked';
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.checked = isChecked;
+        cb.onchange = () => {
+          li.classList.toggle('checked', cb.checked);
+          localStorage.setItem(key, cb.checked ? '1' : '0');
+        };
+        const sp = document.createElement('span');
+        sp.textContent = txt;
+        li.appendChild(cb);
+        li.appendChild(sp);
+        ul.appendChild(li);
+      });
+    };
+
+    renderList('mBring', m.bring, 'b');
+    renderList('mResp', m.resp, 'r');
+
+    document.getElementById('memberModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMember(){
+    document.getElementById('memberModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeMember();
+  });
+
   // stars
   (function(){
     var s = document.getElementById('stars');
