@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RASSAGALA · 28–29 Nov 2026 · 13 Brothers · One Mountain</title>
+<meta name="description" content="Rassagala (Raxagala / Kinihira Kanda) camp — 13 brothers, Dolosbage range, 1,438 m. 28–29 November 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:        #0a0e0c;
+    --bg-elev:   #111814;
+    --bg-card:   #151d18;
+    --bg-card-2: #1a241e;
+    --border:    #243029;
+    --border-hi: #38493c;
+    --text:      #e8e0d0;
+    --text-mute: #8a978e;
+    --text-dim:  #5e6c62;
+    --ember:     #ff6b1a;
+    --ember-deep:#c2410c;
+    --ember-glow:rgba(255,107,26,.35);
+    --moss:      #6b8f71;
+    --mist:      rgba(180,200,190,.06);
+    --warn:      #d97706;
+    --ok:        #4a8a5e;
+    --danger:    #b23b3b;
+    --display: 'Bebas Neue', 'Oswald', Impact, sans-serif;
+    --body:    'Inter', system-ui, -apple-system, sans-serif;
+    --mono:    'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    font-weight:400;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  /* ===== Background atmosphere ===== */
+  .sky{
+    position:fixed; inset:0; z-index:-2; pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 0%, rgba(255,107,26,.08), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 20% 30%, rgba(107,143,113,.07), transparent 70%),
+      radial-gradient(ellipse 100% 80% at 50% 100%, rgba(194,65,12,.05), transparent 65%),
+      linear-gradient(180deg, #08110d 0%, #0a0e0c 40%, #0c0f0c 100%);
+  }
+  .grain{
+    position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.35;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.85 0 0 0 0 0.7 0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode:overlay;
+  }
+  .mist{
+    position:fixed; inset:-10% -10% -10% -10%; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(ellipse 40% 30% at 30% 60%, var(--mist), transparent 70%),
+      radial-gradient(ellipse 35% 25% at 70% 70%, var(--mist), transparent 70%),
+      radial-gradient(ellipse 50% 30% at 50% 90%, var(--mist), transparent 70%);
+    animation: drift 40s linear infinite;
+    filter:blur(20px);
+  }
+  @keyframes drift{
+    0%   {transform:translate(0,0)}
+    50%  {transform:translate(-3%, 2%)}
+    100% {transform:translate(0,0)}
+  }
+
+  /* ===== Top nav ===== */
+  nav.top{
+    position:sticky; top:0; z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(10,14,12,.78);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-in{
+    max-width:1400px; margin:0 auto; padding:10px 22px;
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--display); letter-spacing:.14em; font-size:20px; color:var(--text);
+  }
+  .brand .dot{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--ember);
+    box-shadow:0 0 12px var(--ember-glow), 0 0 24px var(--ember-glow);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1); opacity:1}
+    50%    {transform:scale(1.25); opacity:.7}
+  }
+  .brand small{font-family:var(--mono); font-size:10px; color:var(--text-dim); letter-spacing:.18em}
+  .nav-links{display:flex; gap:4px; flex-wrap:wrap}
+  .nav-links a{
+    color:var(--text-mute); text-decoration:none;
+    font-size:12px; font-weight:500; letter-spacing:.04em;
+    padding:7px 11px; border-radius:6px; transition:.18s;
+    font-family:var(--mono);
+  }
+  .nav-links a:hover{color:var(--ember); background:rgba(255,107,26,.07)}
+
+  /* ===== Hero ===== */
+  header.hero{
+    position:relative;
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:60px 22px 80px;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+  }
+  /* layered mountain silhouettes via SVG */
+  .mtn{position:absolute; bottom:0; left:0; width:100%; height:auto; display:block}
+  .mtn.m1{opacity:.55}
+  .mtn.m2{opacity:.80}
+  .mtn.m3{opacity:1}
+
+  .stars{position:absolute; inset:0; z-index:0}
+  .star{position:absolute; width:2px; height:2px; background:#fff; border-radius:50%; opacity:.5}
+
+  .hero-inner{
+    position:relative; z-index:2;
+    max-width:1400px; margin:0 auto; width:100%;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.28em;
+    color:var(--ember); text-transform:uppercase;
+    padding:7px 14px;
+    border:1px solid rgba(255,107,26,.4);
+    border-radius:99px;
+    background:rgba(255,107,26,.06);
+    margin-bottom:28px;
+  }
+  .eyebrow .pip{
+    width:6px; height:6px; border-radius:50%; background:var(--ember);
+    box-shadow:0 0 8px var(--ember-glow);
+  }
+
+  h1.title{
+    font-family:var(--display);
+    font-size:clamp(72px, 16vw, 240px);
+    line-height:.85; letter-spacing:.02em;
+    color:var(--text);
+    margin-bottom:14px;
+    text-shadow:0 0 40px rgba(255,107,26,.18);
+  }
+  h1.title .accent{color:var(--ember)}
+
+  .sub{
+    font-family:var(--display);
+    font-size:clamp(20px, 3.5vw, 38px);
+    letter-spacing:.22em;
+    color:var(--text-mute);
+    margin-bottom:36px;
+  }
+  .sub b{color:var(--text); font-weight:400}
+
+  .lede{
+    max-width:640px; font-size:17px; line-height:1.7;
+    color:var(--text-mute); margin-bottom:40px;
+  }
+  .lede em{color:var(--ember); font-style:normal; font-weight:600}
+
+  .stats{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+    gap:1px; max-width:920px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:14px; overflow:hidden;
+  }
+  .stat{
+    background:rgba(15,21,18,.6);
+    padding:18px 18px 20px;
+    backdrop-filter:blur(6px);
+  }
+  .stat .n{
+    font-family:var(--display);
+    font-size:42px; line-height:1; color:var(--text);
+    display:flex; align-items:baseline; gap:6px;
+  }
+  .stat .n small{font-size:14px; color:var(--ember); font-family:var(--mono); letter-spacing:.08em}
+  .stat .l{
+    margin-top:8px; font-family:var(--mono);
+    font-size:10px; letter-spacing:.2em; color:var(--text-dim);
+    text-transform:uppercase;
+  }
+
+  .scroll-cue{
+    position:absolute; bottom:24px; left:50%; transform:translateX(-50%);
+    font-family:var(--mono); font-size:10px; letter-spacing:.3em;
+    color:var(--text-dim); text-transform:uppercase;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    z-index:3;
+  }
+  .scroll-cue .line{
+    width:1px; height:36px; background:linear-gradient(180deg, transparent, var(--ember));
+    animation:fadeline 2s ease-in-out infinite;
+  }
+  @keyframes fadeline{
+    0%,100%{opacity:.3}
+    50%    {opacity:1}
+  }
+
+  /* ===== Section frame ===== */
+  section{
+    position:relative;
+    padding:90px 22px;
+    max-width:1400px; margin:0 auto;
+    scroll-margin-top:60px;
+  }
+  .sec-head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:30px; flex-wrap:wrap; margin-bottom:50px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--border);
+  }
+  .sec-head .num{
+    font-family:var(--mono); font-size:11px; color:var(--ember);
+    letter-spacing:.3em; margin-bottom:6px;
+  }
+  .sec-head h2{
+    font-family:var(--display); font-size:clamp(40px, 6vw, 72px);
+    line-height:1; letter-spacing:.03em; color:var(--text);
+  }
+  .sec-head .desc{
+    color:var(--text-mute); max-width:520px; font-size:14px; line-height:1.6;
+  }
+  .sec-head .desc em{color:var(--ember); font-style:normal}
+
+  /* ===== Mountain section ===== */
+  .intel-grid{
+    display:grid; grid-template-columns:1.1fr .9fr; gap:30px;
+  }
+  @media(max-width:900px){.intel-grid{grid-template-columns:1fr}}
+  .intel-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:14px; padding:30px;
+  }
+  .intel-card h3{
+    font-family:var(--display); font-size:30px; letter-spacing:.05em;
+    color:var(--text); margin-bottom:14px;
+  }
+  .intel-card p{color:var(--text-mute); font-size:15px; line-height:1.75; margin-bottom:14px}
+  .intel-card p:last-child{margin-bottom:0}
+  .intel-card p em{color:var(--ember); font-style:normal; font-weight:600}
+  .intel-card .alias{
+    display:flex; flex-wrap:wrap; gap:8px; margin:18px 0;
+  }
+  .intel-card .alias span{
+    font-family:var(--mono); font-size:11px; letter-spacing:.06em;
+    padding:5px 10px; border-radius:6px;
+    background:rgba(255,107,26,.08); color:var(--ember);
+    border:1px solid rgba(255,107,26,.25);
+  }
+  .intel-card .alias span.alt{
+    background:rgba(107,143,113,.08); color:var(--moss);
+    border-color:rgba(107,143,113,.25);
+  }
+  .intel-facts{
+    display:grid; grid-template-columns:1fr 1fr; gap:1px;
+    background:var(--border); border:1px solid var(--border);
+    border-radius:14px; overflow:hidden;
+  }
+  .fact{
+    background:var(--bg-card); padding:22px;
+  }
+  .fact .k{
+    font-family:var(--mono); font-size:10px; letter-spacing:.22em;
+    color:var(--text-dim); text-transform:uppercase; margin-bottom:10px;
+  }
+  .fact .v{
+    font-family:var(--display); font-size:28px; color:var(--text); letter-spacing:.04em;
+  }
+  .fact .v small{font-family:var(--mono); font-size:12px; color:var(--ember); margin-left:4px}
+  .fact .x{margin-top:8px; color:var(--text-mute); font-size:12px; line-height:1.5}
+
+  .folk{
+    grid-column: 1 / -1;
+    background:linear-gradient(135deg, rgba(255,107,26,.08), rgba(194,65,12,.02));
+    border:1px solid rgba(255,107,26,.25);
+    border-radius:14px; padding:30px;
+    position:relative; overflow:hidden;
+  }
+  .folk::before{
+    content:'"'; position:absolute; top:-30px; left:18px;
+    font-family:var(--display); font-size:180px; color:rgba(255,107,26,.10);
+    line-height:1;
+  }
+  .folk h3{
+    font-family:var(--display); font-size:30px; color:var(--ember);
+    letter-spacing:.06em; margin-bottom:14px; position:relative;
+  }
+  .folk p{
+    color:var(--text); font-size:15px; line-height:1.8; max-width:760px;
+    position:relative;
+  }
+  .folk p em{color:var(--ember); font-style:normal; font-weight:600}
+
+  /* ===== Brothers ===== */
+  .bros-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px,1fr));
+    gap:14px;
+  }
+  .bro{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:12px; padding:18px;
+    position:relative; overflow:hidden;
+    transition:.22s;
+  }
+  .bro::before{
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg, var(--ember), transparent);
+    opacity:.5;
+  }
+  .bro:hover{
+    border-color:var(--border-hi);
+    background:var(--bg-card-2);
+    transform:translateY(-2px);
+  }
+  .bro .n{
+    font-family:var(--mono); font-size:11px; color:var(--text-dim);
+    letter-spacing:.18em;
+  }
+  .bro .name{
+    font-family:var(--display); font-size:30px; letter-spacing:.04em;
+    color:var(--text); margin:4px 0 8px;
+  }
+  .bro .role{
+    font-size:12px; color:var(--ember); font-weight:600;
+    letter-spacing:.04em; margin-bottom:6px;
+    line-height:1.4;
+  }
+  .bro .carry{
+    font-size:12px; color:var(--text-mute); line-height:1.5;
+  }
+  .bro .carry b{color:var(--text); font-weight:500}
+  .bro .tags{
+    margin-top:10px; display:flex; flex-wrap:wrap; gap:5px;
+  }
+  .bro .tag{
+    font-family:var(--mono); font-size:9px; letter-spacing:.1em;
+    padding:3px 7px; border-radius:4px;
+    background:rgba(107,143,113,.08); color:var(--moss);
+    border:1px solid rgba(107,143,113,.18);
+    text-transform:uppercase;
+  }
+  .bro .tag.ember{
+    background:rgba(255,107,26,.08); color:var(--ember);
+    border-color:rgba(255,107,26,.2);
+  }
+
+  /* ===== Timeline ===== */
+  .tl-days{display:grid; gap:40px}
+  .day-block{
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:16px; padding:30px 30px 30px 0;
+    position:relative; overflow:hidden;
+  }
+  .day-block .day-label{
+    position:absolute; top:0; left:0; bottom:0;
+    width:140px; background:linear-gradient(180deg, rgba(255,107,26,.1), rgba(255,107,26,.02));
+    border-right:1px solid var(--border);
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    padding:20px 10px; text-align:center;
+  }
+  .day-block .day-label .d{
+    font-family:var(--display); font-size:48px; color:var(--ember); line-height:1;
+  }
+  .day-block .day-label .m{
+    font-family:var(--mono); font-size:11px; color:var(--text-mute);
+    letter-spacing:.18em; margin-top:6px;
+  }
+  .day-block .day-label .y{
+    font-family:var(--mono); font-size:10px; color:var(--text-dim);
+    margin-top:4px;
+  }
+  .tl-list{margin-left:170px; padding-right:20px}
+  @media(max-width:720px){
+    .day-block{padding:30px 18px 18px}
+    .day-block .day-label{position:relative; width:100%; height:auto; flex-direction:row; gap:14px; justify-content:flex-start; padding:14px 18px; border-right:none; border-bottom:1px solid var(--border)}
+    .day-block .day-label .d{font-size:32px}
+    .tl-list{margin-left:0; padding:18px}
+  }
+  .tl-row{
+    display:grid; grid-template-columns:130px 1fr; gap:18px;
+    padding:14px 0; border-bottom:1px solid rgba(36,48,41,.5);
+    align-items:flex-start;
+  }
+  .tl-row:last-child{border-bottom:none}
+  @media(max-width:560px){.tl-row{grid-template-columns:90px 1fr; gap:10px}}
+  .tl-time{
+    font-family:var(--mono); font-size:13px; color:var(--ember);
+    letter-spacing:.04em; padding-top:2px;
+    font-weight:500;
+  }
+  .tl-time .check{
+    display:block; font-size:9px; color:var(--warn);
+    letter-spacing:.2em; margin-top:4px;
+  }
+  .tl-what{
+    font-size:14px; color:var(--text); font-weight:500; line-height:1.45;
+  }
+  .tl-note{
+    font-size:12px; color:var(--text-mute); margin-top:4px; line-height:1.5;
+  }
+  .tl-row.fixed .tl-time{color:var(--ok)}
+  .tl-row.fixed .tl-time::before{content:'◆ '}
+
+  /* ===== Budget ===== */
+  .budget-wrap{
+    display:grid; grid-template-columns:2fr 1fr; gap:30px;
+  }
+  @media(max-width:1000px){.budget-wrap{grid-template-columns:1fr}}
+  .b-table{
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:14px; overflow:hidden;
+  }
+  .b-table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .b-table table{width:100%; border-collapse:collapse; font-size:13px; min-width:560px}
+  .b-table thead th{
+    background:rgba(255,107,26,.06);
+    color:var(--ember); font-family:var(--mono);
+    font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    text-align:left; padding:12px 14px; font-weight:500;
+    border-bottom:1px solid var(--border);
+  }
+  .b-table thead th.r{text-align:right}
+  .b-table tbody td{
+    padding:10px 14px; border-bottom:1px solid rgba(36,48,41,.4);
+    color:var(--text); vertical-align:top;
+  }
+  .b-table tbody td.num{text-align:right; font-family:var(--mono); color:var(--text)}
+  .b-table tbody td.mute{color:var(--text-mute); font-size:12px}
+  .b-table tbody tr.cat-row td{
+    background:rgba(107,143,113,.04);
+    color:var(--moss); font-family:var(--mono); font-size:10px;
+    letter-spacing:.2em; text-transform:uppercase;
+    padding:8px 14px;
+  }
+  .b-table tbody tr.sub td{
+    background:rgba(255,255,255,.02);
+    border-top:1px solid var(--border-hi);
+    color:var(--text-mute); font-size:12px;
+  }
+  .b-table tbody tr.grand td{
+    background:rgba(255,107,26,.08);
+    border-top:1px solid rgba(255,107,26,.3);
+    color:var(--text);
+  }
+  .b-table tbody tr.grand td.num{color:var(--ember); font-weight:700}
+  .b-table tbody tr.grand td.lbl{
+    font-family:var(--display); font-size:18px; letter-spacing:.08em;
+    color:var(--ember);
+  }
+  .b-table .who{
+    display:inline-block; font-family:var(--mono); font-size:11px;
+    padding:2px 7px; border-radius:4px;
+    background:rgba(107,143,113,.08); color:var(--moss);
+    border:1px solid rgba(107,143,113,.18);
+  }
+  .b-table .status-pill{
+    display:inline-block; font-family:var(--mono); font-size:9px;
+    padding:2px 6px; border-radius:3px; letter-spacing:.08em;
+    margin-top:3px;
+  }
+  .b-table .status-pill.conf{background:rgba(74,138,94,.15); color:var(--ok); border:1px solid rgba(74,138,94,.3)}
+  .b-table .status-pill.est{background:rgba(217,119,6,.15); color:var(--warn); border:1px solid rgba(217,119,6,.3)}
+  .b-table .status-pill.online{background:rgba(107,143,113,.12); color:var(--moss); border:1px solid rgba(107,143,113,.3)}
+
+  .b-summary{
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .b-card{
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:14px; padding:24px;
+  }
+  .b-card.hero-tot{
+    background:linear-gradient(135deg, rgba(255,107,26,.12), rgba(194,65,12,.04));
+    border-color:rgba(255,107,26,.3);
+  }
+  .b-card .k{
+    font-family:var(--mono); font-size:10px; letter-spacing:.22em;
+    color:var(--text-dim); text-transform:uppercase; margin-bottom:10px;
+  }
+  .b-card .v{
+    font-family:var(--display); font-size:54px; line-height:1; letter-spacing:.04em;
+    color:var(--text);
+  }
+  .b-card.hero-tot .v{color:var(--ember); font-size:72px}
+  .b-card .v small{font-family:var(--mono); font-size:14px; color:var(--text-mute); margin-left:8px; letter-spacing:.08em}
+  .b-card .sub{
+    margin-top:10px; font-size:12px; color:var(--text-mute); line-height:1.5;
+  }
+  .b-card ul{list-style:none; margin-top:14px}
+  .b-card ul li{
+    display:flex; justify-content:space-between;
+    padding:8px 0; border-bottom:1px solid rgba(36,48,41,.4);
+    font-size:13px;
+  }
+  .b-card ul li:last-child{border-bottom:none}
+  .b-card ul li span:first-child{color:var(--text-mute)}
+  .b-card ul li span:last-child{font-family:var(--mono); color:var(--text)}
+
+  /* ===== Shopping ===== */
+  .shop-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
+  }
+  @media(max-width:900px){.shop-grid{grid-template-columns:1fr}}
+  .shop-team{
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:14px; padding:24px; position:relative; overflow:hidden;
+  }
+  .shop-team::before{
+    content:''; position:absolute; top:0; left:0; width:60px; height:60px;
+    background:radial-gradient(circle at 0 0, rgba(255,107,26,.15), transparent 70%);
+  }
+  .shop-team .team-id{
+    font-family:var(--display); font-size:48px; color:var(--ember);
+    line-height:1; letter-spacing:.05em;
+  }
+  .shop-team .team-who{
+    font-family:var(--mono); font-size:11px; color:var(--text-mute);
+    letter-spacing:.14em; margin-top:6px;
+  }
+  .shop-team ul{list-style:none; margin-top:20px}
+  .shop-team ul li{
+    padding:12px 0; border-bottom:1px solid rgba(36,48,41,.4);
+    display:flex; justify-content:space-between; gap:12px;
+    font-size:13px;
+  }
+  .shop-team ul li:last-child{border-bottom:none}
+  .shop-team ul li .item{color:var(--text); font-weight:500; line-height:1.4}
+  .shop-team ul li .qty{
+    font-family:var(--mono); color:var(--ember); white-space:nowrap;
+    font-size:13px;
+  }
+  .shop-team .team-note{
+    margin-top:14px; padding:10px 12px; border-radius:8px;
+    background:rgba(217,119,6,.08); border:1px solid rgba(217,119,6,.2);
+    font-size:11px; color:var(--text-mute); line-height:1.5;
+  }
+  .shop-extra{
+    margin-top:20px; padding:14px 18px; border-radius:10px;
+    background:rgba(107,143,113,.06); border:1px solid rgba(107,143,113,.2);
+    font-size:13px; color:var(--text-mute);
+  }
+  .shop-extra b{color:var(--moss); font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase}
+
+  /* ===== Gear ===== */
+  .gear-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+    gap:14px;
+  }
+  .gear-item{
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:10px; padding:16px; display:flex; gap:14px; align-items:flex-start;
+  }
+  .gear-icon{
+    flex:0 0 38px; width:38px; height:38px; border-radius:8px;
+    background:rgba(255,107,26,.08); border:1px solid rgba(255,107,26,.2);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--display); font-size:18px; color:var(--ember);
+  }
+  .gear-body{flex:1; min-width:0}
+  .gear-name{
+    font-size:14px; color:var(--text); font-weight:500; line-height:1.35;
+    margin-bottom:5px;
+  }
+  .gear-meta{
+    display:flex; gap:10px; flex-wrap:wrap; font-size:11px;
+  }
+  .gear-meta .who{font-family:var(--mono); color:var(--moss)}
+  .gear-meta .qty{font-family:var(--mono); color:var(--text-mute)}
+  .gear-meta .stat{
+    font-family:var(--mono); padding:1px 6px; border-radius:3px;
+    font-size:9px; letter-spacing:.08em; text-transform:uppercase;
+  }
+  .gear-meta .stat.have{background:rgba(74,138,94,.15); color:var(--ok)}
+  .gear-meta .stat.buy{background:rgba(217,119,6,.15); color:var(--warn)}
+  .gear-meta .stat.need{background:rgba(180,180,180,.06); color:var(--text-mute); border:1px solid rgba(180,180,180,.15)}
+  .gear-meta .stat.rent{background:rgba(255,107,26,.1); color:var(--ember); border:1px solid rgba(255,107,26,.2)}
+  .gear-meta .stat.bring{background:rgba(107,143,113,.1); color:var(--moss); border:1px solid rgba(107,143,113,.2)}
+  .gear-meta .stat.role{background:rgba(180,180,180,.06); color:var(--text); border:1px solid rgba(180,180,180,.15)}
+  .gear-note{font-size:11px; color:var(--text-dim); margin-top:6px; line-height:1.4}
+
+  .personal-kit{
+    margin-top:30px; padding:24px;
+    background:linear-gradient(135deg, rgba(107,143,113,.05), transparent);
+    border:1px solid var(--border); border-radius:14px;
+  }
+  .personal-kit h4{
+    font-family:var(--display); font-size:24px; color:var(--moss);
+    letter-spacing:.08em; margin-bottom:14px;
+  }
+  .personal-kit .kit-items{
+    display:flex; flex-wrap:wrap; gap:8px;
+  }
+  .personal-kit .kit-items span{
+    font-family:var(--mono); font-size:11px; letter-spacing:.04em;
+    padding:6px 11px; border-radius:6px;
+    background:rgba(107,143,113,.06); color:var(--text);
+    border:1px solid rgba(107,143,113,.18);
+  }
+
+  /* ===== Open Questions ===== */
+  .q-list{display:flex; flex-direction:column; gap:14px}
+  .q-card{
+    background:var(--bg-card); border:1px solid var(--border);
+    border-left:3px solid var(--warn);
+    border-radius:10px; padding:20px 24px;
+    display:grid; grid-template-columns:48px 1fr 140px; gap:18px; align-items:center;
+  }
+  @media(max-width:680px){.q-card{grid-template-columns:36px 1fr; }
+    .q-card .q-owner{grid-column:1/-1; margin-top:8px}}
+  .q-num{
+    font-family:var(--display); font-size:42px; color:var(--warn);
+    line-height:1;
+  }
+  .q-body .q-text{
+    font-size:14px; color:var(--text); font-weight:500; line-height:1.45;
+    margin-bottom:6px;
+  }
+  .q-body .q-why{
+    font-size:12px; color:var(--text-mute); line-height:1.5;
+  }
+  .q-body .q-why em{color:var(--ember); font-style:normal}
+  .q-owner{
+    text-align:center;
+    padding:10px 12px; border-radius:8px;
+    background:rgba(255,107,26,.06); border:1px solid rgba(255,107,26,.2);
+  }
+  .q-owner .k{
+    font-family:var(--mono); font-size:9px; letter-spacing:.22em;
+    color:var(--text-dim); text-transform:uppercase;
+  }
+  .q-owner .v{
+    font-family:var(--display); font-size:20px; color:var(--ember);
+    letter-spacing:.06em; margin-top:2px;
+  }
+
+  /* ===== Footer ===== */
+  footer{
+    border-top:1px solid var(--border);
+    padding:60px 22px 40px;
+    background:linear-gradient(180deg, transparent, rgba(255,107,26,.03));
+  }
+  .foot-in{max-width:1400px; margin:0 auto; text-align:center}
+  .foot-quote{
+    font-family:var(--display); font-size:clamp(28px, 5vw, 48px);
+    color:var(--text); letter-spacing:.05em; line-height:1.15;
+    margin-bottom:14px;
+  }
+  .foot-quote em{color:var(--ember); font-style:normal}
+  .foot-sub{
+    color:var(--text-mute); font-size:13px; max-width:560px; margin:0 auto 30px;
+    line-height:1.6;
+  }
+  .foot-meta{
+    display:flex; justify-content:center; gap:24px; flex-wrap:wrap;
+    font-family:var(--mono); font-size:11px; color:var(--text-dim);
+    letter-spacing:.12em;
+  }
+  .foot-meta span b{color:var(--ember); font-weight:500}
+
+  /* ===== Reveal animation ===== */
+  .reveal{opacity:0; transform:translateY(24px); transition:.7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1; transform:none}
+
+  @media(max-width:760px){
+    nav.top .nav-links{display:none}
+    section{padding:60px 18px}
+    .intel-facts{grid-template-columns:1fr}
+  }
+
+  @media print{
+    .sky,.grain,.mist,.scroll-cue{display:none}
+    body{background:#fff; color:#000}
+  }
+</style>
+</head>
+<body>
+
+<div class="sky"></div>
+<div class="grain"></div>
+<div class="mist"></div>
+
+<!-- ===== NAV ===== -->
+<nav class="top">
+  <div class="nav-in">
+    <div class="brand">
+      <span class="dot"></span>
+      RASSAGALA <small>· DSCOLOS·1438M</small>
+    </div>
+    <div class="nav-links">
+      <a href="#mountain">Mountain</a>
+      <a href="#brothers">Brothers</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#budget">Budget</a>
+      <a href="#shopping">Shopping</a>
+      <a href="#gear">Gear</a>
+      <a href="#questions">Open</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-bg">
+    <div class="stars" id="stars"></div>
+    <svg class="mtn m1" viewBox="0 0 1440 240" preserveAspectRatio="none">
+      <path d="M0,240 L0,160 L120,120 L240,150 L360,80 L480,140 L620,60 L760,130 L880,90 L1020,150 L1160,70 L1300,140 L1440,90 L1440,240 Z" fill="#0c1410"/>
+    </svg>
+    <svg class="mtn m2" viewBox="0 0 1440 240" preserveAspectRatio="none">
+      <path d="M0,240 L0,180 L160,100 L320,170 L460,110 L600,180 L780,90 L940,170 L1080,120 L1240,180 L1380,100 L1440,160 L1440,240 Z" fill="#0a100c"/>
+    </svg>
+    <svg class="mtn m3" viewBox="0 0 1440 200" preserveAspectRatio="none">
+      <path d="M0,200 L0,150 L200,80 L420,160 L680,60 L920,150 L1180,80 L1440,150 L1440,200 Z" fill="#070b08"/>
+    </svg>
+  </div>
+
+  <div class="hero-inner">
+    <div class="eyebrow reveal">
+      <span class="pip"></span>
+      DOLOSUAGE RANGE · SRI LANKA · CAMP II
+    </div>
+
+    <h1 class="title reveal">RASSA<span class="accent">GALA</span></h1>
+    <div class="sub reveal">28·29 NOV 2026 &nbsp;·&nbsp; <b>13 BROTHERS</b> &nbsp;·&nbsp; ONE MOUNTAIN</div>
+
+    <p class="lede reveal">
+      The second-highest peak of the Dolosbage range — <em>1,438 m</em>, the rock of the Rakshasas, where Ravana is
+      said to have hidden Sita. Two tents, thirteen mugs of coffee, KottuMee under the stars, sunrise through the mist.
+      One night on top of Kinihira Kanda.
+    </p>
+
+    <div class="stats reveal">
+      <div class="stat"><div class="n">1,438<small>M</small></div><div class="l">Elevation</div></div>
+      <div class="stat"><div class="n">13<small>BOYS</small></div><div class="l">Headcount</div></div>
+      <div class="stat"><div class="n">2<small>DAYS</small></div><div class="l">Sat 28 → Sun 29</div></div>
+      <div class="stat"><div class="n">3,900<small>RS</small></div><div class="l">Per head, collect</div></div>
+      <div class="stat"><div class="n">~3<small>KM</small></div><div class="l">Trail one-way</div></div>
+      <div class="stat"><div class="n">2<small>TENTS</small></div><div class="l">6-berth rented</div></div>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    SCROLL
+    <div class="line"></div>
+  </div>
+</header>
+
+<!-- ===== MOUNTAIN ===== -->
+<section id="mountain">
+  <div class="sec-head reveal">
+    <div>
+      <div class="num">01 / THE MOUNTAIN</div>
+      <h2>Know the peak</h2>
+    </div>
+    <p class="desc">
+      Not Rajagala (Ampara). Not the Ratnapura <em>Rassagala</em>. This is Raxagala / Kinihira Kanda — second-highest
+      of the Dolosbage range, a flat-topped hill above the tea estates with its own patch of jungle.
+    </p>
+  </div>
+
+  <div class="intel-grid">
+    <div class="intel-card reveal">
+      <h3>WHAT IT IS</h3>
+      <div class="alias">
+        <span>RAXAGALA</span>
+        <span class="alt">RAKSHAGALA</span>
+        <span class="alt">KINIHIRA KANDA</span>
+        <span class="alt">PATTINI AMMA KANDA</span>
+        <span class="alt">WANGEDI MOLGAS GALA</span>
+      </div>
+      <p>
+        Second-highest peak of the <em>Dolosbage range</em>, <em>1,438 m</em>. Named for its mortar-and-pestle shape
+        (Wangedi Molgas Gala). Flat summit carries its own isolated patch of jungle — a good overnight camping spot.
+      </p>
+      <p>
+        Trailhead is the <em>Raxawa junction</em> on the Nawalapitiya–Dolosbage road, ~14 km from Nawalapitiya. The
+        trail starts past the <em>Raxagala tea factory</em>. Two paths from Raxawa: a clearer one along the tea estate,
+        and a slightly harder one through tea-farm land.
+      </p>
+      <p>
+        Distance: <em>2–3 km one way</em>, ~260–370 m gain depending on tracker. 1.5–2 hr for light hikers; budget
+        2.5–3 hr with 13 boys and camping gear. Rated moderate; the final climb one blogger called "a bit difficult".
+      </p>
+    </div>
+
+    <div class="intel-facts reveal">
+      <div class="fact">
+        <div class="k">Elevation</div>
+        <div class="v">1,438<small>M</small></div>
+        <div class="x">2nd highest of Dolosbage. Kabaragala nearby is the highest at ~1,506 m.</div>
+      </div>
+      <div class="fact">
+        <div class="k">Trail distance</div>
+        <div class="v">2–3<small>KM ONE-WAY</small></div>
+        <div class="x">260–370 m gain · 1.5–2 hr · moderate</div>
+      </div>
+      <div class="fact">
+        <div class="k">Start point</div>
+        <div class="v">RAXAWA<small>JUNCTION</small></div>
+        <div class="x">~14 km from Nawalapitiya on Dolosbage road</div>
+      </div>
+      <div class="fact">
+        <div class="k">Weather risk</div>
+        <div class="v">WET<small>+</small> COLD</div>
+        <div class="x">Late Nov hill country: leeches, mist, rain. ~1,400 m, cold at night.</div>
+      </div>
+    </div>
+
+    <div class="folk reveal">
+      <h3>RAKSHAGALA — ROCK OF THE RAKSHASAS</h3>
+      <p>
+        Folklore links the mountain to <em>Ravana</em>: the "Rock of the Rakshasas", said to have hidden
+        <em>Sita</em>. A gold bed is supposedly hidden somewhere on the mountain. The flat summit's isolated patch
+        of jungle is the campsite — the boys sleep where the old story sleeps.
+      </p>
+    </div>
+  </div>
+
+  <div style="margin-top:30px; padding:18px 22px; border-radius:10px; background:rgba(180,59,59,.06); border:1px solid rgba(180,59,59,.25); font-size:13px; color:var(--text-mute); line-height:1.6" class="reveal">
+    <b style="color:var(--danger); font-family:var(--mono); font-size:11px; letter-spacing:.18em">NOT VERIFIED ONLINE</b> &nbsp;—&nbsp;
+    Verified water source on the trail · permit requirement · exact camping rules/landowner · current last-bus times.
+    All need a local call or a recent trip report. See <a href="#questions" style="color:var(--ember); text-decoration:none">Open Questions</a>.
+  </div>
+</section>
+
+<!-- ===== BROTHERS ===== -->
+<section id="brothers">
+  <div class="sec-head reveal">
+    <div>
+      <div class="num">02 / THE BROTHERS</div>
+      <h2>Thirteen on the hill</h2>
+    </div>
+    <p class="desc">
+      Roles and carries assigned. Heavy shared items spread so nobody hauls more than ~1 big item.
+      <em>Reassign freely.</em>
+    </p>
+  </div>
+
+  <div class="bros-grid">
+
+    <div class="bro reveal">
+      <div class="n">01</div>
+      <div class="name">THEEKSHANA</div>
+      <div class="role">Admin · Food float · BOSS</div>
+      <div class="carry">Carries the <b>THE CHAIRMAN OF THE MOUNTAIN</b> holds <b>food cash float</b>; Decides when to use Duma. Confirms tent rental.</div>
+      <div class="tags"><span class="tag ember">SWEEP</span><span class="tag">NAV</span><span class="tag">FOOD FLOAT</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">02</div>
+      <div class="name">MEVIDU</div>
+      <div class="role">Front lead · Transport money · Wake-up</div>
+      <div class="carry">Buys all <b>4 bus tickets</b> for the group (transport cash); leads at the front; owns the wake-up call and camp timeline. Carries water.</div>
+      <div class="tags"><span class="tag ember">LEAD</span><span class="tag">TRANSPORT</span><span class="tag">TIMELINE</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">03</div>
+      <div class="name">YAPA</div>
+      <div class="role">Arpico run · KottuMee · Sausages</div>
+      <div class="carry">Buys <b>25 Prima KottuMee Hot &amp; Spicy</b> + <b>1 bulk sausage packet</b> at Arpico Nawinna. Carries water. Shop Team B.</div>
+      <div class="tags"><span class="tag ember">SHOP B</span><span class="tag">DINNER</span><span class="tag">WATER</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">04</div>
+      <div class="name">MANAGE</div>
+      <div class="role">Front lead · Tents · Tarp</div>
+      <div class="carry">Owns the <b>2 rented 6-person tents</b> (splits poles/flysheet across 4 carriers), <b>tarp + rope</b>, peg hammer. Front of the line. Confirms tent cost.</div>
+      <div class="tags"><span class="tag ember">LEAD</span><span class="tag">TENTS</span><span class="tag">TARP</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">05</div>
+      <div class="name">DILUM</div>
+      <div class="role">Lunch packets · Day-1 breakfast</div>
+      <div class="carry">Buys <b>13 lunch packets</b> + <b>13 Day-1 breakfast packs</b> in Nawalapitiya, ~09:30. Pre-calls a rice shop from the bus to order ahead. Shop Team A.</div>
+      <div class="tags"><span class="tag ember">SHOP A</span><span class="tag">LUNCH</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">06</div>
+      <div class="name">DAMSATH</div>
+      <div class="role">Headcount · Bus timings</div>
+      <div class="carry">Counts heads at <b>every stop</b>. Owns the down-bus question — confirms last Raxawa → Nawalapitiya and last Nawalapitiya → Colombo buses. Shop Team A.</div>
+      <div class="tags"><span class="tag ember">HEADCOUNT</span><span class="tag">BUSTIMES</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">07</div>
+      <div class="name">NISAL</div>
+      <div class="role">Stove · Gas</div>
+      <div class="carry">Brings the <b>gas stove</b> (test before Sat) + existing <b>gas tin</b>. Buys <b>1 spare gas tin</b> (Rs 1,250). Two stoves confirmed for the cook team.</div>
+      <div class="tags"><span class="tag">STOVE</span><span class="tag">GAS</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">08</div>
+      <div class="name">NOOGI</div>
+      <div class="role">Cook kit · Second stove · Pots</div>
+      <div class="carry">Brings the <b>second stove</b>, <b>2 large cooking pots</b> (noodles + coffee water), ladle/spoon/tongs. Buys spare gas tin backup. The camp kitchen.</div>
+      <div class="tags"><span class="tag">COOKKIT</span><span class="tag">STOVE 2</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">09</div>
+      <div class="name">THENULA</div>
+      <div class="role">Breakfast run · Coffee · Bread</div>
+      <div class="carry">Buys <b>bread (4 loaves)</b>, <b>dhal curry (13 portions)</b>, <b>butter</b>, <b>coffee sachets + sugar + milk powder</b>. Day-2 breakfast + hot coffee at the top. Shop Team C.</div>
+      <div class="tags"><span class="tag ember">SHOP C</span><span class="tag">BREAKFAST</span><span class="tag">COFFEE</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">10</div>
+      <div class="name">VINUDA</div>
+      <div class="role">Price scout · Arpico run</div>
+      <div class="carry">Verifies <b>Prima KottuMee + Arpico prices</b> at Nawalapitiya (the yellow estimate lines). Pairs with Yapa on Shop Team B for the sausage + noodle run.</div>
+      <div class="tags"><span class="tag ember">SHOP B</span><span class="tag">PRICES</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">11</div>
+      <div class="name">SITHUKA</div>
+      <div class="role">First aid · Leech defence</div>
+      <div class="carry">Carries the <b>first-aid kit</b> — plasters, ORS, Panadol, antiseptic. Owns the <b>leech salt / tobacco water</b> for wet weather. Hill-country essential.</div>
+      <div class="tags"><span class="tag ember">MEDIC</span><span class="tag">LEECH</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">12</div>
+      <div class="name">PULJITH</div>
+      <div class="role">Light · Power bank</div>
+      <div class="carry">Brings <b>3 lamps / big torches</b> (shared) plus each person's own headlamp. Carries the shared <b>power bank</b>. The summit stays lit.</div>
+      <div class="tags"><span class="tag">LIGHT</span><span class="tag">POWER</span></div>
+    </div>
+
+    <div class="bro reveal">
+      <div class="n">13</div>
+      <div class="name">NETHAN</div>
+      <div class="role">Consumables · Leave-no-trace</div>
+      <div class="carry">Buys the <b>misc consumables</b> bag — <b>3 lighters</b> (spread across 3 bags), <b>5 garbage bags</b>, <b>wet wipes / tissue</b>, salt, etc. Carries all rubbish out.</div>
+      <div class="tags"><span class="tag ember">CONSUMABLES</span><span class="tag">LNT</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== TIMELINE ===== -->
+<section id="timeline">
+  <div class="sec-head reveal">
+    <div>
+      <div class="num">03 / THE LINE</div>
+      <h2>Two days on the hill</h2>
+    </div>
+    <p class="desc">
+      Times are <em>estimates</em> except where marked fixed. Anything marked <em>CHECK</em> needs a phone call or
+      local confirmation before Saturday.
+    </p>
+  </div>
+
+  <div class="tl-days">
+
+    <div class="day-block reveal">
+      <div class="day-label">
+        <div class="d">SAT</div>
+        <div class="m">28 NOV</div>
+        <div class="y">2026</div>
+      </div>
+      <div class="tl-list">
+
+        <div class="tl-row fixed">
+          <div class="tl-time">04:40</div>
+          <div>
+            <div class="tl-what">Fort → Nawalapitiya bus <span style="font-size:11px;color:var(--ok);font-family:var(--mono)">· FIXED</span></div>
+            <div class="tl-note">Buy tickets early; split group across rows if needed. ~5 hr in practice.</div>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-time">~09:30<span class="check">CHECK</span></div>
+          <div>
+            <div class="tl-what">Arrive Nawalapitiya</div>
+            <div class="tl-note">Journey is ~5 hours in practice. Any delay eats the shopping window.</div>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-time">09:30 – 10:00</div>
+          <div>
+            <div class="tl-what">Shopping sprint — 3 teams</div>
+            <div class="tl-note">Tightest part of the trip. The moment you step off the bus, split. Next bus after 10:00 = ?</div>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-time">10:00<span class="check">CHECK</span></div>
+          <div>
+            <div class="tl-what">Dolosbage bus to Raxawa (Raksha handiya) junction</div>
+            <div class="tl-note">Confirm the 10:00 bus exists. ~14 km, expect ~1 hr.</div>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-time">~11:15</div>
+          <div>
+            <div class="tl-what">Start trail near Raxagala tea factory</div>
+            <div class="tl-note">Sources: ~2–3 km one way, 1.5–2 hr for light day hikers; allow 2.5–3 hr with 13 + camping gear.</div>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-time">~12:00</div>
+          <div>
+            <div class="tl-what">Lunch in the forest</div>
+            <div class="tl-note">Eat packets + rest. Do not leave rubbish — Nethan's garbage bags.</div>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-time">~14:00 – 15:00</div>
+          <div>
+            <div class="tl-what">Reach the camping area, set up tents</div>
+            <div class="tl-note">Do before dark. Leave 2 hr of light margin.</div>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-time">~16:00</div>
+          <div>
+            <div class="tl-what">Hot coffee — 13 mugs</div>
+            <div class="tl-note">Thenula's coffee sachets + sugar + milk powder on Noogi's stove.</div>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-time">~18:30</div>
+          <div>
+            <div class="tl-what">Dinner: KottuMee + sausages</div>
+            <div class="tl-note">Cook in batches. Second stove helps — Noogi + Nisal on the pots.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="day-block reveal">
+      <div class="day-label">
+        <div class="d">SUN</div>
+        <div class="m">29 NOV</div>
+        <div class="y">2026</div>
+      </div>
+      <div class="tl-list">
+
+        <div class="tl-row">
+          <div class="tl-time">~05:55<span class="check">CHECK</span></div>
+          <div>
+            <div class="tl-what">Sunrise (approx)</div>
+            <div class="tl-note">Weather / mist may block it. Worth the early wake-up anyway.</div>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-time">~06:30</div>
+          <div>
+            <div class="tl-what">Breakfast: bread + dhal + butter</div>
+            <div class="tl-note">4 loaves, 13 dhal portions, 1 pack butter — Thenula's run.</div>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-time">~08:30 – 09:00</div>
+          <div>
+            <div class="tl-what">Pack, clean camp, start descent</div>
+            <div class="tl-note">Hard deadline — must be down to catch the Nawalapitiya bus. Leave no trace.</div>
+          </div>
+        </div>
+
+        <div class="tl-row">
+          <div class="tl-time">~10:30 – 11:00<span class="check">CHECK</span></div>
+          <div>
+            <div class="tl-what">Bus Raxawa → Nawalapitiya</div>
+            <div class="tl-note">Need the LAST down-bus time confirmed — Damsath owns this.</div>
+          </div>
+        </div>
+
+        <div class="tl-row fixed">
+          <div class="tl-time">13:15</div>
+          <div>
+            <div class="tl-what">Bus Nawalapitiya → Colombo <span style="font-size:11px;color:var(--warn);font-family:var(--mono)">· CHECK</span></div>
+            <div class="tl-note">Your target last bus. The earlier Kabaragala plan said 12:00 — confirm with Damsath.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== BUDGET ===== -->
+<section id="budget">
+  <div class="sec-head reveal">
+    <div>
+      <div class="num">04 / THE COST</div>
+      <h2>Rs 50,001 · split 13 ways</h2>
+    </div>
+    <p class="desc">
+      Every line pulls from the Assumptions sheet. <em>Collect Rs 3,900 per head</em> (rounded up to nearest Rs 100).
+      Not budgeted: personal items, tips, tuk or van fallback if a bus is missed.
+    </p>
+  </div>
+
+  <div class="budget-wrap">
+
+    <div class="b-table reveal">
+     <div class="b-table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Line item</th>
+            <th>Qty</th>
+            <th class="r">Unit (Rs)</th>
+            <th class="r">Total (Rs)</th>
+            <th>Owner</th>
+            <th>When / where</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr class="cat-row"><td colspan="6">TRANSPORT · Mevidu holds the cash</td></tr>
+          <tr><td>Fort → Nawalapitiya bus</td><td class="num">13</td><td class="num">800</td><td class="num">10,400</td><td><span class="who">Mevidu</span></td><td class="mute">Sat 04:40, Fort <span class="status-pill conf">CONFIRMED</span></td></tr>
+          <tr><td>Nawalapitiya → Raxawa bus</td><td class="num">13</td><td class="num">100</td><td class="num">1,300</td><td><span class="who">Mevidu</span></td><td class="mute">Sat 10:00, Nawalapitiya <span class="status-pill est">ESTIMATE</span></td></tr>
+          <tr><td>Raxawa → Nawalapitiya bus</td><td class="num">13</td><td class="num">100</td><td class="num">1,300</td><td><span class="who">Mevidu</span></td><td class="mute">Sun, Raxawa junction <span class="status-pill est">ESTIMATE</span></td></tr>
+          <tr><td>Nawalapitiya → Colombo bus</td><td class="num">13</td><td class="num">800</td><td class="num">10,400</td><td><span class="who">Mevidu</span></td><td class="mute">Sun 13:15 <span class="status-pill est">YOUR FIGURE</span></td></tr>
+
+          <tr class="cat-row"><td colspan="6">FOOD · The hill country menu</td></tr>
+          <tr><td>Lunch packets (Day 1)</td><td class="num">13</td><td class="num">450</td><td class="num">5,850</td><td><span class="who">Dilum</span></td><td class="mute">Sat ~09:30, Nawalapitiya <span class="status-pill conf">CONFIRMED</span></td></tr>
+          <tr><td>Breakfast (Day 1)</td><td class="num">13</td><td class="num">200</td><td class="num">2,600</td><td><span class="who">Dilum</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill conf">CONFIRMED</span></td></tr>
+          <tr><td>Hot coffee at the top</td><td class="num">13</td><td class="num">50</td><td class="num">650</td><td><span class="who">Thenula</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill est">ESTIMATE</span></td></tr>
+          <tr><td>Prima KottuMee Hot &amp; Spicy (dinner)</td><td class="num">25</td><td class="num">140</td><td class="num">3,500</td><td><span class="who">Yapa</span></td><td class="mute">Sat, Arpico Nawalapitiya <span class="status-pill est">ESTIMATE</span></td></tr>
+          <tr><td>Sausages, bulk packet (dinner)</td><td class="num">1</td><td class="num">1,000</td><td class="num">1,000</td><td><span class="who">Yapa</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill est">ESTIMATE</span></td></tr>
+          <tr><td>Bread loaves (Day-2 breakfast)</td><td class="num">4</td><td class="num">160</td><td class="num">640</td><td><span class="who">Thenula</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill est">ESTIMATE</span></td></tr>
+          <tr><td>Dhal curry (Day-2 breakfast)</td><td class="num">13</td><td class="num">60</td><td class="num">780</td><td><span class="who">Thenula</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill est">ESTIMATE</span></td></tr>
+          <tr><td>Butter</td><td class="num">1</td><td class="num">950</td><td class="num">950</td><td><span class="who">Thenula</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill online">ONLINE</span></td></tr>
+
+          <tr class="cat-row"><td colspan="6">SUPPLIES · Fuel, water, consumables</td></tr>
+          <tr><td>Water 5L bottles</td><td class="num">8</td><td class="num">400</td><td class="num">3,200</td><td><span class="who">Manage</span></td><td class="mute">Sat, Nawalapitiya <span class="status-pill online">MAX RETAIL</span></td></tr>
+          <tr><td>Spare gas tin</td><td class="num">1</td><td class="num">1,250</td><td class="num">1,250</td><td><span class="who">Nisal</span></td><td class="mute">Before Sat <span class="status-pill online">ONLINE</span></td></tr>
+          <tr><td>Misc consumables (lighters, bags, wipes, salt, tissue)</td><td class="num">1</td><td class="num">800</td><td class="num">800</td><td><span class="who">Nethan</span></td><td class="mute">Before Sat <span class="status-pill est">ESTIMATE</span></td></tr>
+
+          <tr class="cat-row"><td colspan="6">GEAR · Rented</td></tr>
+          <tr><td>Tent rental (6-person, rented)</td><td class="num">2</td><td class="num">1,500</td><td class="num">3,000</td><td><span class="who">Theekshana</span></td><td class="mute">Before Sat — confirm Rs 3,000 total vs each <span class="status-pill est">YOUR FIGURE</span></td></tr>
+
+          <tr class="sub"><td colspan="3">Subtotal</td><td class="num">47,620</td><td colspan="2" class="mute">Rs 3,663 per head</td></tr>
+          <tr class="sub"><td colspan="3">Contingency · 5%</td><td class="num">2,381</td><td colspan="2" class="mute">Rs 183 per head · cut from 10% to stay under Rs 4,000 cap</td></tr>
+          <tr class="grand"><td colspan="3" class="lbl">GRAND TOTAL</td><td class="num">50,001</td><td colspan="2" class="mute">Rs 3,846 per head · collect <b style="color:var(--ember)">Rs 3,900</b> (rounded up)</td></tr>
+
+        </tbody>
+      </table>
+     </div>
+    </div>
+
+    <div class="b-summary">
+
+      <div class="b-card hero-tot reveal">
+        <div class="k">COLLECT PER HEAD</div>
+        <div class="v">3,900<small>RS</small></div>
+        <div class="sub">Rounded up from Rs 3,846. Pool with Mevidu (transport) and Theekshana (food).</div>
+      </div>
+
+      <div class="b-card reveal">
+        <div class="k">GRAND TOTAL</div>
+        <div class="v">50,001<small>RS</small></div>
+        <ul>
+          <li><span>Transport</span><span>23,400</span></li>
+          <li><span>Food</span><span>15,970</span></li>
+          <li><span>Supplies</span><span>5,250</span></li>
+          <li><span>Gear (tents)</span><span>3,000</span></li>
+          <li><span>Contingency 5%</span><span>2,381</span></li>
+        </ul>
+      </div>
+
+      <div class="b-card reveal" style="background:rgba(180,59,59,.04); border-color:rgba(180,59,59,.18)">
+        <div class="k" style="color:var(--danger)">NOT BUDGETED</div>
+        <div style="margin-top:8px; font-size:13px; color:var(--text-mute); line-height:1.6">
+          Personal items · tip / misc extras · tuk or van fallback if a bus is missed. Carry personal cash for these.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SHOPPING ===== -->
+<section id="shopping">
+  <div class="sec-head reveal">
+    <div>
+      <div class="num">05 / THE SPRINT</div>
+      <h2>30 minutes in Nawalapitiya</h2>
+    </div>
+    <p class="desc">
+      If the Fort bus lands ~09:30 you have ~30 minutes. Split into <em>3 teams the moment you step off</em> —
+      nobody misses the 10:00 Dolosbage bus.
+    </p>
+  </div>
+
+  <div class="shop-grid">
+
+    <div class="shop-team reveal">
+      <div class="team-id">A</div>
+      <div class="team-who">DILUM + DAMSATH</div>
+      <ul>
+        <li><span class="item">Lunch packets</span><span class="qty">× 13</span></li>
+        <li><span class="item">Day-1 breakfast packs</span><span class="qty">× 13</span></li>
+      </ul>
+      <div class="team-note">
+        Pre-call a rice shop from the bus to order ahead if you can get a number. Eat the breakfast packs on the Dolosbage bus.
+      </div>
+    </div>
+
+    <div class="shop-team reveal">
+      <div class="team-id">B</div>
+      <div class="team-who">YAPA + VINUDA</div>
+      <ul>
+        <li><span class="item">Prima KottuMee Hot &amp; Spicy</span><span class="qty">× 25</span></li>
+        <li><span class="item">Sausages (1 bulk packet)</span><span class="qty">× 1</span></li>
+      </ul>
+      <div class="team-note">
+        Arpico NAWINNA. Get from the Arpico Nawinna, NAI MIRIS EKA THAMA ONA.
+      </div>
+    </div>
+
+    <div class="shop-team reveal">
+      <div class="team-id">C</div>
+      <div class="team-who">THENULA + YAPA / MANAGE</div>
+      <ul>
+        <li><span class="item">Bread loaves</span><span class="qty">× 4</span></li>
+        <li><span class="item">Dhal curry</span><span class="qty">× 13</span></li>
+        <li><span class="item">Butter</span><span class="qty">× 1</span></li>
+        <li><span class="item">Coffee sachets + sugar + milk powder</span><span class="qty">× 13 mugs</span></li>
+        <li><span class="item">Water 5L bottles <em style="color:var(--text-dim);font-size:10px">(Thenula + Manage)</em></span><span class="qty">× 8</span></li>
+      </ul>
+      <div class="team-note">
+        Ask for sealed / tight container for dhal — it must survive overnight. Fill personal bottles too.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="shop-extra reveal">
+    <b>EVERYONE ELSE</b> &nbsp;·&nbsp; Toilet before the bus. Bus-stand toilet; nothing on the trail.
+  </div>
+</section>
+
+<!-- ===== GEAR ===== -->
+<section id="gear">
+  <div class="sec-head reveal">
+    <div>
+      <div class="num">06 / THE KIT</div>
+      <h2>Who carries what</h2>
+    </div>
+    <p class="desc">
+      Proposed assignment — reassign freely. Heavy shared items spread so <em>nobody carries more than ~1 big item</em>.
+    </p>
+  </div>
+
+  <div class="gear-grid">
+
+    <div class="gear-item reveal"><div class="gear-icon">🔥</div><div class="gear-body"><div class="gear-name">Gas stove</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Nisal</span><span class="stat have">HAVE</span></div><div class="gear-note">Test before Sat.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🔥</div><div class="gear-body"><div class="gear-name">Gas tin (existing)</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Nisal</span><span class="stat have">HAVE</span></div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🔥</div><div class="gear-body"><div class="gear-name">Spare gas tin</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Noogi</span><span class="stat buy">BUY</span></div><div class="gear-note">Two stoves help; still carry 1 spare tin.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🔥</div><div class="gear-body"><div class="gear-name">Second stove</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Noogi</span><span class="stat have">HAVE</span></div><div class="gear-note">Two stoves confirmed.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🍳</div><div class="gear-body"><div class="gear-name">Large cooking pot</div><div class="gear-meta"><span class="qty">×2</span><span class="who">Noogi</span><span class="stat need">NEED</span></div><div class="gear-note">One for noodles, one for coffee water.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🍴</div><div class="gear-body"><div class="gear-name">Ladle / big spoon / tongs</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Noogi</span><span class="stat need">NEED</span></div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">☕</div><div class="gear-body"><div class="gear-name">Mugs or bowls</div><div class="gear-meta"><span class="qty">×13</span><span class="who">Each person</span><span class="stat bring">BRING</span></div><div class="gear-note">Personal mug doubles for coffee + noodles.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🔥</div><div class="gear-body"><div class="gear-name">Lighters</div><div class="gear-meta"><span class="qty">×3</span><span class="who">Nethan</span><span class="stat buy">BUY</span></div><div class="gear-note">Spread across 3 bags.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">⛺</div><div class="gear-body"><div class="gear-name">Tents (6-person, rented)</div><div class="gear-meta"><span class="qty">×2</span><span class="who">Manage + 3 others</span><span class="stat rent">RENT</span></div><div class="gear-note">Split poles/flysheet/bag across 4 carriers. 13 boys in 12 spaces: one extra bag/tarp shelter or squeeze.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🪢</div><div class="gear-body"><div class="gear-name">Tarp + rope (cooking/rain shelter)</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Manage</span><span class="stat need">NEED</span></div><div class="gear-note">Essential if it rains.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🔨</div><div class="gear-body"><div class="gear-name">Peg hammer / extra pegs</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Manage</span><span class="stat need">NEED</span></div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">💧</div><div class="gear-body"><div class="gear-name">Water 5L bottles</div><div class="gear-meta"><span class="qty">×8</span><span class="who">Yapa + Mevidu + 4 others</span><span class="stat buy">BUY</span></div><div class="gear-note">Buy at Nawalapitiya. Heavy: ~2 bottles per carrier max.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">✚</div><div class="gear-body"><div class="gear-name">First-aid kit</div><div class="gear-meta"><span class="qty">×1</span><span class="who">SITHUKA</span><span class="stat need">NEED</span></div><div class="gear-note">Plasters, ORS, Panadol, antiseptic, leech salt.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🗑</div><div class="gear-body"><div class="gear-name">Garbage bags</div><div class="gear-meta"><span class="qty">×5</span><span class="who">Nethan</span><span class="stat buy">BUY</span></div><div class="gear-note">Carry all rubbish out. Leave no trace.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🧻</div><div class="gear-body"><div class="gear-name">Wet wipes / tissue</div><div class="gear-meta"><span class="qty">×3</span><span class="who">Nethan</span><span class="stat buy">BUY</span></div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🧂</div><div class="gear-body"><div class="gear-name">Salt / tobacco water · leech repellent</div><div class="gear-meta"><span class="qty">×1</span><span class="who">SITHUKA</span><span class="stat need">NEED</span></div><div class="gear-note">Leeches likely in wet weather.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🔦</div><div class="gear-body"><div class="gear-name">Lamps / big torch (shared)</div><div class="gear-meta"><span class="qty">×3</span><span class="who">Puljith</span><span class="stat need">NEED</span></div><div class="gear-note">Plus each person's own headlamp.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🔋</div><div class="gear-body"><div class="gear-name">Power bank (shared)</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Puljith</span><span class="stat need">NEED</span></div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">🗺</div><div class="gear-body"><div class="gear-name">Printed / offline map + route screenshot</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Theekshana</span><span class="stat need">NEED</span></div><div class="gear-note">Signal may drop.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">💵</div><div class="gear-body"><div class="gear-name">Cash for transport + float</div><div class="gear-meta"><span class="qty">×1</span><span class="who">Mevidu / Theekshana</span><span class="stat need">NEED</span></div><div class="gear-note">Small notes for buses. Transport + food floats.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">①</div><div class="gear-body"><div class="gear-name">Group head-count owner</div><div class="gear-meta"><span class="who">Damsath</span><span class="stat role">ROLE</span></div><div class="gear-note">Count at every stop.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">⏱</div><div class="gear-body"><div class="gear-name">Bus timings (down-bus times!)</div><div class="gear-meta"><span class="who">Damsath</span><span class="stat role">ROLE</span></div><div class="gear-note">Confirm last Raxawa → Nawalapitiya bus.</div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">⏰</div><div class="gear-body"><div class="gear-name">Wake-up call / camp timeline</div><div class="gear-meta"><span class="who">Mevidu</span><span class="stat role">ROLE</span></div></div></div>
+
+    <div class="gear-item reveal"><div class="gear-icon">→</div><div class="gear-body"><div class="gear-name">Lead at front / sweep at back</div><div class="gear-meta"><span class="who">Manage (front) / Theekshana (sweep)</span><span class="stat role">ROLE</span></div><div class="gear-note">Nobody gets left behind.</div></div></div>
+
+  </div>
+
+  <div class="personal-kit reveal">
+    <h4>PERSONAL · EVERYONE BRINGS</h4>
+    <div class="kit-items">
+      <span>2L water bottle</span>
+      <span>Rain jacket / poncho</span>
+      <span>Warm layer</span>
+      <span>Sleeping bag + mat</span>
+      <span>Headlamp</span>
+      <span>Closed shoes with grip</span>
+      <span>Spare socks</span>
+      <span>Long pants</span>
+      <span>Power bank</span>
+      <span>Snack</span>
+      <span>Own meds</span>
+      <span>NIC / ID</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OPEN QUESTIONS ===== -->
+<section id="questions">
+  <div class="sec-head reveal">
+    <div>
+      <div class="num">07 / OPEN</div>
+      <h2>Answer these, the plan locks</h2>
+    </div>
+    <p class="desc">
+      Six decisions and checks needed before <em>28 Nov</em>. Each has an owner — the answers determine whether the
+      budget holds and the Sunday down-bus works.
+    </p>
+  </div>
+
+  <div class="q-list">
+
+    <div class="q-card reveal">
+      <div class="q-num">1</div>
+      <div class="q-body">
+        <div class="q-text">Tent rental: Rs 3,000 total for both, or each? Where from, and are they 6-person for real (13 boys in two tents is tight)?</div>
+        <div class="q-why">Cost and sleeping space. Budget assumes <em>Rs 1,500 each</em> — confirm it is not Rs 3,000 each.</div>
+      </div>
+      <div class="q-owner"><div class="k">OWNER</div><div class="v">MANAGE</div></div>
+    </div>
+
+    <div class="q-card reveal">
+      <div class="q-num">2</div>
+      <div class="q-body">
+        <div class="q-text">Exact fare Nawalapitiya → Raxawa junction (ask the conductor / Nawalapitiya stand).</div>
+        <div class="q-why">Budget uses <em>Rs 100 each way</em> from NTC rates (~Rs 4.5/km × 14 km). Your Rs 250 figure looked high.</div>
+      </div>
+      <div class="q-owner"><div class="k">OWNER</div><div class="v">MEVIDU</div></div>
+    </div>
+
+    <div class="q-card reveal">
+      <div class="q-num">3</div>
+      <div class="q-body">
+        <div class="q-text">Last Raxawa → Nawalapitiya bus and last Nawalapitiya → Colombo bus (13:15 vs 12:00).</div>
+        <div class="q-why">Sunday plan depends on it; <em>your time buffer stays as is</em>. Earlier Kabaragala plan said 12:00.</div>
+      </div>
+      <div class="q-owner"><div class="k">OWNER</div><div class="v">DAMSATH</div></div>
+    </div>
+
+    <div class="q-card reveal">
+      <div class="q-num">4</div>
+      <div class="q-body">
+        <div class="q-text">Local contact at Raxawa for water source, camping permission and trail info.</div>
+        <div class="q-why"><em>Unverified online.</em> Verified water source on the trail is the biggest gap in the plan.</div>
+      </div>
+      <div class="q-owner"><div class="k">OWNER</div><div class="v">THEEKSHANA</div></div>
+    </div>
+
+    <div class="q-card reveal">
+      <div class="q-num">5</div>
+      <div class="q-body">
+        <div class="q-text">Rain plan: tarp + ponchos + dry bags.</div>
+        <div class="q-why">Late Nov, no sleeping bags, <em>~1,400 m</em>. Leeches and mist are realistic, not worst-case.</div>
+      </div>
+      <div class="q-owner"><div class="k">OWNER</div><div class="v">THEEKSHANA</div></div>
+    </div>
+
+    <div class="q-card reveal">
+      <div class="q-num">6</div>
+      <div class="q-body">
+        <div class="q-text">Prima KottuMee and other prices at Nawalapitiya.</div>
+        <div class="q-why">Budget lines marked <em>yellow are estimates</em>. Arpico Nawalapitiya is the source.</div>
+      </div>
+      <div class="q-owner"><div class="k">OWNER</div><div class="v">VINUDA</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="foot-in">
+    <div class="foot-quote">THE ROCK OF THE <em>RAKSHASAS</em>.<br>13 BROTHERS. ONE NIGHT ON TOP.</div>
+    <p class="foot-sub">
+      Rassagala / Raxagala / Kinihira Kanda — Dolosbage range, 1,438 m. Saturday 28 Nov 04:40 from Fort.
+      Back in Colombo Sunday 29 Nov, all being well, by evening. Leave no trace.
+    </p>
+    <div class="foot-meta">
+      <span>28–29 <b>NOV 2026</b></span>
+      <span>13 <b>BROTHERS</b></span>
+      <span>Rs <b>3,900</b> per head</span>
+      <span>1,438 <b>M</b></span>
+      <span>LEAVE <b>NO TRACE</b></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // stars
+  (function(){
+    var s = document.getElementById('stars');
+    if(!s) return;
+    var n = 80;
+    for(var i=0;i<n;i++){
+      var st = document.createElement('div');
+      st.className = 'star';
+      st.style.left = (Math.random()*100) + '%';
+      st.style.top  = (Math.random()*70) + '%';
+      st.style.opacity = (0.2 + Math.random()*0.6).toFixed(2);
+      st.style.width = st.style.height = (1 + Math.random()*1.5).toFixed(1) + 'px';
+      s.appendChild(st);
+    }
+  })();
+
+  // reveal on scroll
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+</script>
+
+</body>
+</html>
